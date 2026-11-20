@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RailPulse - Where Is My Train: Live Reality Tracker</title>
+  <meta name="theme-color" content="#282B4A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="manifest.json">
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -86,6 +91,12 @@
 
     </div>
   </header>
+
+  <!-- Offline In-Train Mode Banner -->
+  <div id="offlineIndicatorBanner" class="hidden bg-[#282B4A] border-b border-[#EEEBDA]/20 px-4 py-2 text-center text-xs text-[#EEEBDA] shadow-inner flex items-center justify-center space-x-2">
+    <span>📡</span>
+    <span><strong>Offline In-Train Transit Mode Active:</strong> Operating seamlessly via cached timetable & dead reckoning kinematic simulation. No cellular data required.</span>
+  </div>
 
   <!-- ========================================================================
        MAIN APP CONTAINER

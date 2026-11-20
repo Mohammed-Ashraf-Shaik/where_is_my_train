@@ -692,8 +692,30 @@ class RailPulseApp {
   }
 }
 
+// Register ServiceWorker for 100% Offline Transit Operation
+function registerServiceWorker() {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then((reg) => console.log("[RailPulse] PWA ServiceWorker active with scope:", reg.scope))
+        .catch((err) => console.warn("[RailPulse] ServiceWorker registration fallback:", err));
+    });
+  }
+
+  // Network connectivity listener for offline in-train mode
+  window.addEventListener("offline", () => {
+    const banner = document.getElementById("offlineIndicatorBanner");
+    if (banner) banner.classList.remove("hidden");
+  });
+  window.addEventListener("online", () => {
+    const banner = document.getElementById("offlineIndicatorBanner");
+    if (banner) banner.classList.add("hidden");
+  });
+}
+
 // Bootstrap application on DOM ready
 window.addEventListener("DOMContentLoaded", () => {
+  registerServiceWorker();
   const app = new RailPulseApp();
   app.init();
   window.railPulseApp = app;
