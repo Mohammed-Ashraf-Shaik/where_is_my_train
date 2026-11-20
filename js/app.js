@@ -129,11 +129,11 @@ class RailPulseApp {
 
     if (delayBadge) {
       if (train.delayMinutes === 0) {
-        delayBadge.className = "badge-pill bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center space-x-1.5";
+        delayBadge.className = "badge-pill bg-[#2EC4B6]/20 text-[#2EC4B6] border border-[#2EC4B6]/40 flex items-center space-x-1.5";
       } else if (train.delayMinutes <= 10) {
-        delayBadge.className = "badge-pill bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center space-x-1.5";
+        delayBadge.className = "badge-pill bg-[#F6AE2D]/20 text-[#F6AE2D] border border-[#F6AE2D]/40 flex items-center space-x-1.5";
       } else {
-        delayBadge.className = "badge-pill bg-red-500/20 text-red-400 border border-red-500/30 flex items-center space-x-1.5";
+        delayBadge.className = "badge-pill bg-[#E71D36]/20 text-[#E71D36] border border-[#E71D36]/40 flex items-center space-x-1.5";
       }
     }
   }
@@ -213,13 +213,13 @@ class RailPulseApp {
       const btn = document.getElementById(t.btn);
       btn?.addEventListener("click", () => {
         tabs.forEach(o => {
-          document.getElementById(o.btn)?.classList.remove("active", "bg-cyan-950/80", "border-cyan-400", "text-cyan-300");
-          document.getElementById(o.btn)?.classList.add("bg-slate-900", "border-slate-700", "text-slate-400");
+          document.getElementById(o.btn)?.classList.remove("active", "bg-[#EEEBDA]", "text-[#282B4A]");
+          document.getElementById(o.btn)?.classList.add("bg-[#32365C]", "text-[#C8C5B4]");
           document.getElementById(o.panel)?.classList.add("hidden");
         });
 
-        btn.classList.add("active", "bg-cyan-950/80", "border-cyan-400", "text-cyan-300");
-        btn.classList.remove("bg-slate-900", "border-slate-700", "text-slate-400");
+        btn.classList.add("active", "bg-[#EEEBDA]", "text-[#282B4A]");
+        btn.classList.remove("bg-[#32365C]", "text-[#C8C5B4]");
         document.getElementById(t.panel)?.classList.remove("hidden");
       });
     });
@@ -229,9 +229,9 @@ class RailPulseApp {
     const setWeather = (type, activeBtn) => {
       this.trackRenderer.weatherFX.setWeather(type);
       document.querySelectorAll(".weather-btn").forEach(b => {
-        b.className = "weather-btn px-2 py-1 rounded-lg text-slate-400 hover:text-white";
+        b.className = "weather-btn px-2 py-1 rounded-lg text-[#C8C5B4] hover:text-[#EEEBDA]";
       });
-      activeBtn.className = "weather-btn px-2 py-1 rounded-lg text-cyan-300 font-bold bg-cyan-950 border border-cyan-500/40";
+      activeBtn.className = "weather-btn px-2 py-1 rounded-lg text-[#282B4A] font-bold bg-[#EEEBDA] border border-[#EEEBDA]";
     };
 
     const btnClear = document.getElementById("weatherBtnClear");
@@ -290,19 +290,19 @@ class RailPulseApp {
       const msgDiv = document.createElement("div");
       msgDiv.className = `flex items-start space-x-2.5 ${sender === 'user' ? 'justify-end' : ''}`;
       
-      const avatar = sender === 'user' ? '👤' : '🤖';
-      const bg = sender === 'user' ? 'bg-cyan-900/60 border-cyan-500/40 text-cyan-100 rounded-tr-none' : 'bg-slate-800/80 border-slate-700/60 text-slate-200 rounded-tl-none';
+      const avatar = sender === 'user' ? '👤' : '🚆';
+      const bg = sender === 'user' ? 'bg-[#3E4370] border-[#EEEBDA]/20 text-[#EEEBDA] rounded-tr-none' : 'bg-[#282B4A] border-[#EEEBDA]/15 text-[#EEEBDA] rounded-tl-none';
 
       // Parse markdown-like bold text
       const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>');
 
       msgDiv.innerHTML = `
-        ${sender !== 'user' ? `<span class="w-7 h-7 rounded-lg bg-cyan-600/30 border border-cyan-400/40 flex items-center justify-center text-sm">${avatar}</span>` : ''}
+        ${sender !== 'user' ? `<span class="w-7 h-7 rounded-lg bg-[#EEEBDA] text-[#282B4A] font-bold flex items-center justify-center text-xs">${avatar}</span>` : ''}
         <div class="border rounded-2xl p-3 text-xs max-w-[85%] ${bg}">
-          <p class="font-bold ${sender === 'user' ? 'text-cyan-300' : 'text-cyan-400'} mb-1">${sender === 'user' ? 'You' : 'RailGemini Assistant'}:</p>
+          <p class="font-bold ${sender === 'user' ? 'text-[#F26419]' : 'text-[#EEEBDA]'} mb-1">${sender === 'user' ? 'You' : 'RailPulse Conductor'}:</p>
           ${formatted}
         </div>
-        ${sender === 'user' ? `<span class="w-7 h-7 rounded-lg bg-slate-700 flex items-center justify-center text-sm">${avatar}</span>` : ''}
+        ${sender === 'user' ? `<span class="w-7 h-7 rounded-lg bg-[#32365C] text-[#EEEBDA] flex items-center justify-center text-xs">${avatar}</span>` : ''}
       `;
       messages.appendChild(msgDiv);
       messages.scrollTop = messages.scrollHeight;
@@ -370,12 +370,12 @@ class RailPulseApp {
     container.innerHTML = `
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Input Parameters Card -->
-        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-3">
-          <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wide">Weather & Track Factors</h4>
+        <div class="bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-3">
+          <h4 class="text-xs font-bold text-[#EEEBDA] uppercase tracking-wide">Weather & Track Factors</h4>
           
           <div>
-            <label class="text-[11px] text-slate-400 block mb-1">Atmospheric Condition:</label>
-            <select id="weatherSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+            <label class="text-[11px] text-[#C8C5B4] block mb-1">Atmospheric Condition:</label>
+            <select id="weatherSelect" class="w-full bg-[#282B4A] border border-[#EEEBDA]/20 rounded-lg p-2 text-xs text-[#EEEBDA]">
               ${this.delayPredictor.weatherConditions.map((w, idx) => `
                 <option value="${idx}" ${idx === this.delayPredictor.selectedWeatherIndex ? 'selected' : ''}>${w.name}</option>
               `).join("")}
@@ -383,20 +383,20 @@ class RailPulseApp {
           </div>
 
           <div>
-            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+            <div class="flex justify-between text-[11px] text-[#C8C5B4] mb-1">
               <span>Section Congestion:</span>
-              <span id="congestionLabel" class="text-cyan-300 font-mono font-bold">${this.delayPredictor.corridorCongestionPct}%</span>
+              <span id="congestionLabel" class="text-[#EEEBDA] font-mono font-bold">${this.delayPredictor.corridorCongestionPct}%</span>
             </div>
-            <input id="congestionSlider" type="range" min="30" max="140" value="${this.delayPredictor.corridorCongestionPct}" class="w-full accent-cyan-400 cursor-pointer h-1.5 bg-slate-700 rounded-lg" />
+            <input id="congestionSlider" type="range" min="30" max="140" value="${this.delayPredictor.corridorCongestionPct}" class="w-full accent-[#F26419] cursor-pointer h-1.5 bg-[#32365C] rounded-lg" />
           </div>
         </div>
 
         <!-- Output Prediction Gauges -->
-        <div class="md:col-span-2 bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-4">
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-3">
+        <div class="md:col-span-2 bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#EEEBDA]/15 pb-3">
             <div>
-              <span class="text-xs font-bold text-white">Projected Terminal Delay</span>
-              <div class="text-2xl font-black font-mono text-cyan-300 mt-0.5">
+              <span class="text-xs font-bold text-[#EEEBDA]">Projected Terminal Delay</span>
+              <div class="text-2xl font-black font-mono text-[#F26419] mt-0.5">
                 ${prediction.etaDriftString}
               </div>
             </div>
@@ -406,21 +406,21 @@ class RailPulseApp {
           </div>
 
           <div class="grid grid-cols-3 gap-3 text-center text-xs">
-            <div class="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60">
-              <span class="text-slate-400 block text-[10px]">Recovery Confidence</span>
-              <span class="font-bold font-mono text-emerald-400 text-base">${prediction.recoveryProbabilityPct}%</span>
+            <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15">
+              <span class="text-[#C8C5B4] block text-[10px]">Recovery Confidence</span>
+              <span class="font-bold font-mono text-[#2EC4B6] text-base">${prediction.recoveryProbabilityPct}%</span>
             </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60">
-              <span class="text-slate-400 block text-[10px]">Timetable Slack</span>
-              <span class="font-bold font-mono text-cyan-400 text-base">${prediction.scheduleSlackMins} mins</span>
+            <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15">
+              <span class="text-[#C8C5B4] block text-[10px]">Timetable Slack</span>
+              <span class="font-bold font-mono text-[#EEEBDA] text-base">${prediction.scheduleSlackMins} mins</span>
             </div>
-            <div class="p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/60">
-              <span class="text-slate-400 block text-[10px]">Active Delay</span>
-              <span class="font-bold font-mono text-amber-400 text-base">${prediction.currentDelayMinutes} mins</span>
+            <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15">
+              <span class="text-[#C8C5B4] block text-[10px]">Active Delay</span>
+              <span class="font-bold font-mono text-[#F6AE2D] text-base">${prediction.currentDelayMinutes} mins</span>
             </div>
           </div>
 
-          <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 text-xs text-slate-300">
+          <div class="p-3 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15 text-xs text-[#EEEBDA]">
             ${prediction.aiAnalysisSummary}
           </div>
         </div>
@@ -452,9 +452,9 @@ class RailPulseApp {
       <div class="space-y-4">
         <!-- Platform Summary Card -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2">
-            <span class="text-xs text-slate-400 uppercase font-semibold">Upcoming Station</span>
-            <h4 class="text-base font-bold text-white">${crowd.stationName} (Platform ${crowd.platform})</h4>
+          <div class="bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-2">
+            <span class="text-xs text-[#C8C5B4] uppercase font-semibold">Upcoming Station</span>
+            <h4 class="text-base font-bold text-[#EEEBDA]">${crowd.stationName} (Platform ${crowd.platform})</h4>
             <div class="flex items-center space-x-2 pt-1">
               <span class="badge-pill" style="background-color: ${crowd.badgeColor}22; color: ${crowd.badgeColor}; border: 1px solid ${crowd.badgeColor}44;">
                 ${crowd.crowdLabel} (${crowd.crowdScore}%)
@@ -462,37 +462,37 @@ class RailPulseApp {
             </div>
           </div>
 
-          <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-1 text-xs">
-            <span class="text-slate-400 uppercase font-semibold block text-[10px]">Staircase & Escalator Status</span>
-            <div class="text-emerald-400 font-semibold">${crowd.fobCongestion}</div>
-            <div class="text-slate-300 pt-1">${crowd.recommendedBoardingTime}</div>
+          <div class="bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-1 text-xs">
+            <span class="text-[#C8C5B4] uppercase font-semibold block text-[10px]">Staircase & Escalator Status</span>
+            <div class="text-[#2EC4B6] font-semibold">${crowd.fobCongestion}</div>
+            <div class="text-[#EEEBDA] pt-1">${crowd.recommendedBoardingTime}</div>
           </div>
 
-          <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2 text-xs">
-            <span class="text-slate-400 uppercase font-semibold block text-[10px]">Zone Density</span>
+          <div class="bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-2 text-xs">
+            <span class="text-[#C8C5B4] uppercase font-semibold block text-[10px]">Zone Density</span>
             ${crowd.zones.map(z => `
               <div class="flex justify-between items-center text-[11px]">
-                <span class="text-slate-300">${z.zone}</span>
-                <span class="font-mono text-cyan-300 font-bold">${z.density}% (${z.label})</span>
+                <span class="text-[#C8C5B4]">${z.zone}</span>
+                <span class="font-mono text-[#EEEBDA] font-bold">${z.density}% (${z.label})</span>
               </div>
             `).join("")}
           </div>
         </div>
 
         <!-- Coach Boarding Rush Heatmap -->
-        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
-          <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wide mb-3">Coach Boarding Rush Heatmap</h4>
+        <div class="bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15">
+          <h4 class="text-xs font-bold text-[#EEEBDA] uppercase tracking-wide mb-3">Coach Boarding Rush Heatmap</h4>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             ${coaches.map(c => `
-              <div class="p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 space-y-1.5">
+              <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15 space-y-1.5">
                 <div class="flex justify-between items-center text-xs">
-                  <span class="font-bold text-white">${c.code}</span>
+                  <span class="font-bold text-[#EEEBDA]">${c.code}</span>
                   <span class="font-mono text-[10px]" style="color: ${c.color};">${c.rushPercent}%</span>
                 </div>
-                <div class="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                <div class="w-full h-1.5 bg-[#32365C] rounded-full overflow-hidden">
                   <div class="h-full" style="width: ${c.rushPercent}%; background-color: ${c.color};"></div>
                 </div>
-                <div class="text-[9px] text-slate-400 truncate">${c.advice}</div>
+                <div class="text-[9px] text-[#C8C5B4] truncate">${c.advice}</div>
               </div>
             `).join("")}
           </div>
@@ -512,54 +512,54 @@ class RailPulseApp {
     container.innerHTML = `
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <!-- Cell Tower Triangulation Status Card -->
-        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-3">
+        <div class="bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wide">Cell-Tower Signal (Offline Mode)</h4>
+            <h4 class="text-xs font-bold text-[#EEEBDA] uppercase tracking-wide">Cell-Tower Signal (Offline Mode)</h4>
             <button 
               id="btnToggleOffline" 
-              class="px-2.5 py-1 rounded-lg text-xs font-bold transition ${status.isOfflineMode ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-slate-800 text-slate-400 border border-slate-700'}">
+              class="px-2.5 py-1 rounded-lg text-xs font-bold transition ${status.isOfflineMode ? 'bg-[#F6AE2D]/20 text-[#F6AE2D] border border-[#F6AE2D]/40' : 'bg-[#282B4A] text-[#C8C5B4] border border-[#EEEBDA]/20'}">
               ${status.isOfflineMode ? '📡 OFFLINE: ON' : '🌐 GPS: ONLINE'}
             </button>
           </div>
 
-          <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800 space-y-2 text-xs">
+          <div class="p-3 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15 space-y-2 text-xs">
             <div class="flex justify-between">
-              <span class="text-slate-400">Carrier / BTS:</span>
-              <span class="font-mono text-cyan-300 font-bold">${status.networkName}</span>
+              <span class="text-[#C8C5B4]">Carrier / BTS:</span>
+              <span class="font-mono text-[#EEEBDA] font-bold">${status.networkName}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-400">Tower ID:</span>
-              <span class="font-mono text-slate-300">${status.towerId}</span>
+              <span class="text-[#C8C5B4]">Tower ID:</span>
+              <span class="font-mono text-[#C8C5B4]">${status.towerId}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-slate-400">Signal Strength:</span>
-              <span class="font-mono text-emerald-400 font-bold">${status.signalDbm} dBm (${'📶'.repeat(status.bars)})</span>
+              <span class="text-[#C8C5B4]">Signal Strength:</span>
+              <span class="font-mono text-[#2EC4B6] font-bold">${status.signalDbm} dBm (${'📶'.repeat(status.bars)})</span>
             </div>
           </div>
-          <p class="text-[10px] text-slate-500">Emulates tracking inside metal coaches using GSM Cell ID & schedule extrapolation.</p>
+          <p class="text-[10px] text-[#C8C5B4]">Emulates tracking inside steel coaches using GSM Cell ID & schedule extrapolation.</p>
         </div>
 
         <!-- Smart Geofence Wake-Up Alarm Card -->
-        <div class="md:col-span-2 bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-3">
+        <div class="md:col-span-2 bg-[#1C1E34] p-4 rounded-xl border border-[#EEEBDA]/15 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wide">⏰ Smart Geofence Wake-Up Alarm</h4>
-            <span class="badge-pill ${status.alarmActive ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-500 border border-slate-700'}">
+            <h4 class="text-xs font-bold text-[#EEEBDA] uppercase tracking-wide">⏰ Smart Geofence Wake-Up Alarm</h4>
+            <span class="badge-pill ${status.alarmActive ? 'bg-[#2EC4B6]/20 text-[#2EC4B6] border border-[#2EC4B6]/40' : 'bg-[#282B4A] text-[#C8C5B4] border border-[#EEEBDA]/15'}">
               ${status.alarmActive ? 'ACTIVE ALARM' : 'OFF'}
             </span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>
-              <label class="text-[11px] text-slate-400 block mb-1">Target Station:</label>
-              <select id="alarmStationSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+              <label class="text-[11px] text-[#C8C5B4] block mb-1">Target Station:</label>
+              <select id="alarmStationSelect" class="w-full bg-[#282B4A] border border-[#EEEBDA]/20 rounded-lg p-2 text-xs text-[#EEEBDA]">
                 ${this.currentTrain.stations.map(st => `
                   <option value="${st.name}">${st.name} (${st.code})</option>
                 `).join("")}
               </select>
             </div>
             <div>
-              <label class="text-[11px] text-slate-400 block mb-1">Lead Alert Time:</label>
-              <select id="alarmTimeSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+              <label class="text-[11px] text-[#C8C5B4] block mb-1">Lead Alert Time:</label>
+              <select id="alarmTimeSelect" class="w-full bg-[#282B4A] border border-[#EEEBDA]/20 rounded-lg p-2 text-xs text-[#EEEBDA]">
                 <option value="10">10 Minutes Before Station</option>
                 <option value="15" selected>15 Minutes Before Station</option>
                 <option value="25">25 Minutes Before Station</option>
@@ -568,12 +568,12 @@ class RailPulseApp {
           </div>
 
           <div class="flex items-center justify-between pt-1">
-            <div class="text-xs text-slate-400">
-              ${status.alarmActive ? `Alarm set for <strong class="text-cyan-300">${status.targetStation}</strong> (${status.alarmLeadMinutes}m ahead)` : 'No active alarm. Set one so you never miss your station stop!'}
+            <div class="text-xs text-[#C8C5B4]">
+              ${status.alarmActive ? `Alarm set for <strong class="text-[#EEEBDA]">${status.targetStation}</strong> (${status.alarmLeadMinutes}m ahead)` : 'Set a geofence alarm to ensure you never miss your destination stop.'}
             </div>
             <button 
               id="btnSetAlarm" 
-              class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-md transition">
+              class="px-4 py-2 rounded-xl bg-[#F26419] hover:bg-[#E65100] text-white text-xs font-bold shadow-md transition">
               ${status.alarmActive ? 'CANCEL ALARM' : '🔔 SET WAKE-UP ALARM'}
             </button>
           </div>
