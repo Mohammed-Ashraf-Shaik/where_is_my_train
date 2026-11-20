@@ -14,21 +14,30 @@ REQUIRED_FILES = [
     "server.py",
     "push_to_github.bat",
     "push_to_github.ps1",
+    "vercel.json",
+    ".github/workflows/deploy.yml",
     "css/style.css",
     "js/app.js",
     "js/data/trainData.js",
     "js/audio/soundEngine.js",
+    "js/audio/announcementPack.js",
     "js/engine/physicsEngine.js",
     "js/engine/trackRenderer.js",
+    "js/engine/weatherFX.js",
     "js/views/cabView.js",
     "js/views/platformView.js",
     "js/ai/aiCopilot.js",
     "js/ai/aiDelayPredictor.js",
     "js/ai/aiCrowdPredictor.js",
     "js/ai/offlineTriangulator.js",
+    "js/ai/emergencyAidAI.js",
     "js/components/coachLayout.js",
     "js/components/pnrChecker.js",
-    "js/components/telemetryHUD.js"
+    "js/components/telemetryHUD.js",
+    "js/components/liveStationBoard.js",
+    "js/components/berthInspector.js",
+    "js/components/eCatering.js",
+    "js/components/advancedTelemetry.js"
 ]
 
 def check_files():
@@ -94,4 +103,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

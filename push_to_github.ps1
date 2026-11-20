@@ -1,4 +1,4 @@
-﻿# RailPulse AI - PowerShell GitHub Push Utility
+# RailPulse AI - PowerShell GitHub Push Utility
 param(
     [string]$RepoName = "where_is_my_train"
 )
