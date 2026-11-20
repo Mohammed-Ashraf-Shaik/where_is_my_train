@@ -2,18 +2,23 @@
  * RailPulse AI - Track Topology, Neutral Section & Caution Order Monitor
  * Simulates real-world Indian Railways civil engineering telemetry:
  * 25kV OHE Neutral Sections, Permanent Speed Restrictions (PSR), Bridges & Ghat Incline
+ * Throttled rendering (300ms) for high performance & zero DOM churn
  * Editorial Midnight Indigo (#282B4A) & Vanilla (#EEEBDA) Design System
  */
 
 export class TrackTopologyMonitorComponent {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
-    this.vcbStatus = "CLOSED (NORMAL)";
-    this.nextNeutralDistKm = 3.8;
+    this.lastRenderTime = 0;
   }
 
   render(telemetry, train) {
     if (!this.container || !telemetry) return;
+
+    // Throttle rendering to ~3Hz (every 300ms) to prevent unnecessary DOM reflow
+    const now = performance.now();
+    if (now - this.lastRenderTime < 300) return;
+    this.lastRenderTime = now;
 
     // Track progression calculations
     const progress = telemetry.progress || 0.45;
@@ -106,7 +111,7 @@ export class TrackTopologyMonitorComponent {
               <span>🚦</span>
             </div>
             <div class="text-lg font-black font-mono text-[#EEEBDA]">
-              ${telemetry.maxSpeed} <span class="text-xs font-normal text-[#C8C5B4]">km/h</span>
+              ${telemetry.maxSpeedKmh} <span class="text-xs font-normal text-[#C8C5B4]">km/h</span>
             </div>
             <div class="text-[10px] text-[#2EC4B6]">
               Section: Track Class A (160 km/h fit)

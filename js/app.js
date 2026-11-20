@@ -189,17 +189,36 @@ class RailPulseApp {
       } else if (mode === "cab") {
         btnCab.classList.add("active");
         cabContainer.classList.remove("hidden");
-        this.cabView.resize();
+        setTimeout(() => this.cabView.resize(), 20);
       } else if (mode === "platform") {
         btnPlatform.classList.add("active");
         platformContainer.classList.remove("hidden");
-        this.platformView.resize();
+        setTimeout(() => this.platformView.resize(), 20);
       }
     };
 
     btnAerial?.addEventListener("click", () => setCamera("aerial"));
     btnCab?.addEventListener("click", () => setCamera("cab"));
     btnPlatform?.addEventListener("click", () => setCamera("platform"));
+
+    // Quick In-Canvas tactile controls
+    document.getElementById("quickCamBtn")?.addEventListener("click", () => {
+      if (this.activeCamera === "aerial") setCamera("cab");
+      else if (this.activeCamera === "cab") setCamera("platform");
+      else setCamera("aerial");
+    });
+
+    document.getElementById("quickHonkBtn")?.addEventListener("click", () => {
+      this.sound.playHorn();
+    });
+
+    document.getElementById("quickAccelBtn")?.addEventListener("click", () => {
+      this.physics.setThrottle(Math.min(1.0, this.physics.throttle + 0.15));
+    });
+
+    document.getElementById("quickBrakeBtn")?.addEventListener("click", () => {
+      this.physics.applyEmergencyBrake();
+    });
   }
 
   initAITabs() {
@@ -284,16 +303,38 @@ class RailPulseApp {
 
     document.getElementById("btnEmergencySOS")?.addEventListener("click", () => {
       const incident = this.emergencyAid.triggerEmergencySOS(this.physics);
-      alert(
-        `🚨 EMERGENCY SOS BROADCASTED!\n` +
-        `Incident Ref: ${incident.incidentId}\n` +
-        `Train: ${incident.trainNumber} ${incident.trainName} (Coach ${incident.coach})\n` +
-        `Location: ${incident.lat}°N, ${incident.lon}°E (Speed: ${incident.speedKmh} km/h)\n` +
-        `Nearest Station: ${incident.nearestStation}\n` +
-        `Dispatched Units: ${incident.dispatchedUnits.join(", ")}\n` +
-        `RPF Control Room & Medical Unit Notified!`
-      );
+      this.showSOSToast(incident);
     });
+  }
+
+  showSOSToast(incident) {
+    let toast = document.getElementById("railEmergencyToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "railEmergencyToast";
+      toast.className = "fixed top-16 left-1/2 transform -translate-x-1/2 z-50 max-w-lg w-11/12 bg-[#E71D36] text-white p-4 rounded-xl shadow-2xl border-2 border-white/20 transition-all duration-300";
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = `
+      <div class="flex items-start justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-2xl animate-pulse">🚨</span>
+          <div>
+            <h4 class="font-bold text-sm tracking-wide uppercase">RailMadad Emergency SOS Dispatched</h4>
+            <p class="text-xs text-white/90">Ref: <strong>${incident.incidentId}</strong> • Coach <strong>${incident.coach}</strong></p>
+          </div>
+        </div>
+        <button id="closeSosToastBtn" class="text-white hover:text-white/80 font-bold text-base px-2 py-0.5">✕</button>
+      </div>
+      <div class="mt-2 text-xs bg-black/25 p-2 rounded-lg space-y-1">
+        <div><strong>GPS Location:</strong> ${incident.lat}°N, ${incident.lon}°E (Speed: ${incident.speedKmh} km/h)</div>
+        <div><strong>Nearest Station:</strong> ${incident.nearestStation}</div>
+        <div><strong>Dispatched:</strong> ${incident.dispatchedUnits.join(", ")}</div>
+      </div>
+    `;
+    toast.style.display = "block";
+    toast.querySelector("#closeSosToastBtn").onclick = () => { toast.style.display = "none"; };
+    setTimeout(() => { if (toast) toast.style.display = "none"; }, 8000);
   }
 
   initCopilotUI() {
@@ -737,5 +778,16 @@ window.addEventListener("DOMContentLoaded", () => {
   const app = new RailPulseApp();
   app.init();
   window.railPulseApp = app;
+
+  // Seamless AudioContext unlock on first user gesture anywhere
+  const unlockAudio = () => {
+    app.sound?.ensureContext();
+    window.removeEventListener("click", unlockAudio);
+    window.removeEventListener("keydown", unlockAudio);
+    window.removeEventListener("touchstart", unlockAudio);
+  };
+  window.addEventListener("click", unlockAudio, { passive: true });
+  window.addEventListener("keydown", unlockAudio, { passive: true });
+  window.addEventListener("touchstart", unlockAudio, { passive: true });
 });
 

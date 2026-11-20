@@ -1,6 +1,7 @@
 /**
  * RailPulse AI - Station Platform 2.5D View
- * Station-level perspective showing platform markings, coach indicator boards, and arriving rake
+ * Station-level perspective showing platform markings, coach indicator boards, and arriving/through-running rake
+ * Editorial Midnight Indigo (#282B4A) & Vanilla (#EEEBDA) Design System
  */
 
 export class PlatformView {
@@ -13,17 +14,22 @@ export class PlatformView {
 
     this.physics = null;
     this.train = null;
+    this.throughRunX = -600;
+
     this.resize();
     window.addEventListener("resize", () => this.resize());
   }
 
   resize() {
     const rect = this.container.getBoundingClientRect();
-    this.canvas.width = rect.width * window.devicePixelRatio;
-    this.canvas.height = rect.height * window.devicePixelRatio;
+    const w = rect.width || this.container.parentElement?.clientWidth || 800;
+    const h = rect.height || this.container.parentElement?.clientHeight || 480;
+
+    this.canvas.width = w * window.devicePixelRatio;
+    this.canvas.height = h * window.devicePixelRatio;
     this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    this.width = rect.width;
-    this.height = rect.height;
+    this.width = w;
+    this.height = h;
   }
 
   setPhysics(physics, train) {
@@ -33,6 +39,8 @@ export class PlatformView {
 
   render() {
     if (!this.physics || !this.train) return;
+    if (this.width === 0 || this.height === 0) this.resize();
+
     const ctx = this.ctx;
     const w = this.width;
     const h = this.height;
@@ -50,133 +58,172 @@ export class PlatformView {
 
     // Platform Overhead Steel Canopy Structure
     ctx.fillStyle = "#22253E";
-    ctx.fillRect(0, 0, w, 24);
+    ctx.fillRect(0, 0, w, 28);
     for (let x = 40; x < w; x += 120) {
       ctx.strokeStyle = "#383C66";
-      ctx.lineWidth = 6;
+      ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.moveTo(x, 24);
-      ctx.lineTo(x, h * 0.5);
+      ctx.moveTo(x, 28);
+      ctx.lineTo(x + 30, h * 0.45);
       ctx.stroke();
-
-      // Suspended Platform Lamp (Warm Amber Glow)
-      ctx.fillStyle = "rgba(255, 245, 192, 0.9)";
-      ctx.shadowColor = "#F26419";
-      ctx.shadowBlur = 10;
-      ctx.beginPath();
-      ctx.arc(x, 34, 4, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
     }
 
-    // 2. Platform Concrete Slab & Paving
-    const platY = h * 0.52;
+    // 2. Track bed (Below Platform)
+    const platY = h * 0.58;
+    ctx.fillStyle = "#161828"; // Ballast
+    ctx.fillRect(0, platY + 10, w, h - (platY + 10));
+
+    // Platform Concrete Face & Edge
     ctx.fillStyle = "#282B4A";
-    ctx.fillRect(0, platY, w, h - platY);
-
-    // Yellow Safety Paving Line
-    ctx.fillStyle = "#FFDD00";
-    ctx.fillRect(0, platY + 4, w, 6);
-
-    // Platform edge shadow
-    ctx.fillStyle = "#181A2D";
-    ctx.fillRect(0, platY + 10, w, 16);
-
-    // 3. Track Bed below Platform
-    const trackY = platY + 26;
+    ctx.fillRect(0, platY - 55, w, 65);
     ctx.fillStyle = "#1E2036";
-    ctx.fillRect(0, trackY, w, h - trackY);
+    ctx.fillRect(0, platY + 10, w, 22);
 
-    // Rails in front of platform
+    // Yellow Caution Tactile Boarding Strip on Platform Edge
+    ctx.fillStyle = "#FFDD00";
+    ctx.fillRect(0, platY + 6, w, 5);
+
+    // Track Sleepers on lower bed
+    ctx.strokeStyle = "#32365C";
+    ctx.lineWidth = 5;
+    for (let x = 10; x < w; x += 26) {
+      ctx.beginPath();
+      ctx.moveTo(x, platY + 34);
+      ctx.lineTo(x, h - 10);
+      ctx.stroke();
+    }
+
+    // Double Running Steel Rails
     ctx.strokeStyle = "#EEEBDA";
     ctx.lineWidth = 3.5;
+    ctx.shadowColor = "#F26419";
+    ctx.shadowBlur = 6;
+    // Rail 1
     ctx.beginPath();
-    ctx.moveTo(0, trackY + 20);
-    ctx.lineTo(w, trackY + 20);
-    ctx.moveTo(0, trackY + 38);
-    ctx.lineTo(w, trackY + 38);
+    ctx.moveTo(0, platY + 44);
+    ctx.lineTo(w, platY + 44);
     ctx.stroke();
+    // Rail 2
+    ctx.beginPath();
+    ctx.moveTo(0, platY + 74);
+    ctx.lineTo(w, platY + 74);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
 
-    // 4. Arriving / Present Train
-    // Calculate lateral train position based on approach to next station
-    const isAtStation = tele.isStationDwell;
-    const remainingKm = parseFloat(tele.remainingKmToNext);
-    let trainScreenX = w + 100; // Off-screen right when far away
+    // 3. Train Positioning Logic (Guaranteed Visible Action!)
+    let trainX = 0;
+    const isDocked = tele.isStationDwell;
+    const isApproaching = parseFloat(tele.remainingKmToNext) < 3.5;
 
-    if (isAtStation) {
-      trainScreenX = w * 0.45; // Centered at platform
-    } else if (remainingKm < 3.0) {
-      // Pulling into station
-      const approachT = 1.0 - (remainingKm / 3.0);
-      trainScreenX = w - (approachT * (w * 0.55));
+    if (isDocked) {
+      // Train is gracefully docked at platform center
+      trainX = w * 0.55;
+      this.throughRunX = trainX;
+    } else if (isApproaching) {
+      // Pulling in smoothly
+      const approachFactor = 1.0 - (parseFloat(tele.remainingKmToNext) / 3.5);
+      trainX = (w * 0.55) * approachFactor;
+      this.throughRunX = trainX;
+    } else {
+      // Express Through-Run or En Route: Continuously animate train passing along platform!
+      const passSpeed = Math.max(12, (tele.speedKmh / 160) * 28);
+      this.throughRunX += passSpeed;
+      if (this.throughRunX > w + 450) {
+        this.throughRunX = -650;
+      }
+      trainX = this.throughRunX;
     }
 
-    // Draw Train at Platform
-    if (trainScreenX < w + 80) {
-      this.drawTrainAtPlatform(ctx, trainScreenX, trackY + 12);
-    }
+    // 4. Draw Locomotive Rake alongside platform
+    this.drawPlatformTrainRake(ctx, trainX, platY + 54, tele);
 
-    // 5. Digital Station Display Board
-    this.drawStationBoard(ctx, w, platY, tele);
+    // 5. Authentic Overhead Indian Railways Platform Board
+    this.drawStationBoard(ctx, w, platY, tele, isDocked, isApproaching);
 
     ctx.restore();
   }
 
-  drawTrainAtPlatform(ctx, x, y) {
+  drawPlatformTrainRake(ctx, noseX, trackY, tele) {
     const isVandeBharat = this.train.name.includes("Vande Bharat");
-    const rakeLen = 480;
+    const rakeLen = 650; // Long realistic multi-coach train rake
 
     ctx.save();
-    ctx.translate(x, y);
+    ctx.translate(noseX, trackY);
 
-    // Train Body
-    ctx.fillStyle = isVandeBharat ? "#f8fafc" : "#b91c1c";
-    ctx.fillRect(-rakeLen, -36, rakeLen, 44);
+    // Ground Shadow under train
+    ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
+    ctx.fillRect(-rakeLen, -8, rakeLen + 40, 36);
 
-    // Roof arc
-    ctx.fillStyle = isVandeBharat ? "#e2e8f0" : "#991b1b";
-    ctx.fillRect(-rakeLen, -42, rakeLen, 8);
+    // Coach Bogie Wheels
+    ctx.fillStyle = "#181A2D";
+    for (let bx = -rakeLen + 20; bx < 30; bx += 85) {
+      ctx.fillRect(bx, 10, 22, 14);
+      ctx.fillStyle = "#C8C5B4";
+      ctx.beginPath();
+      ctx.arc(bx + 4, 20, 6, 0, Math.PI * 2);
+      ctx.arc(bx + 18, 20, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#181A2D";
+    }
 
-    // Livery stripe
-    ctx.fillStyle = isVandeBharat ? "#0077b6" : "#fef08a";
-    ctx.fillRect(-rakeLen, -16, rakeLen, 6);
+    // Full Train Coach Body
+    ctx.fillStyle = isVandeBharat ? "#EEEBDA" : "#8A1C1C";
+    ctx.fillRect(-rakeLen, -42, rakeLen, 52);
+    ctx.strokeStyle = isVandeBharat ? "#282B4A" : "#4A1111";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(-rakeLen, -42, rakeLen, 52);
 
-    // Glowing passenger windows
-    ctx.fillStyle = "#fef08a";
-    ctx.shadowColor = "#fef08a";
-    ctx.shadowBlur = 8;
-    for (let wx = -rakeLen + 20; wx < -10; wx += 26) {
-      ctx.fillRect(wx, -32, 16, 12);
+    // Livery Center Band (Midnight Indigo for Vande Bharat; Gold for Rajdhani)
+    ctx.fillStyle = isVandeBharat ? "#282B4A" : "#F6AE2D";
+    ctx.fillRect(-rakeLen, -15, rakeLen, 12);
+
+    // Glowing Warm Passenger Windows & Coach Doors
+    ctx.fillStyle = "#FFF5C0";
+    ctx.shadowColor = "#F6AE2D";
+    ctx.shadowBlur = 10;
+    for (let wx = -rakeLen + 25; wx < -15; wx += 36) {
+      ctx.fillRect(wx, -35, 22, 16);
     }
     ctx.shadowBlur = 0;
 
-    // Aerodynamic Nose
-    ctx.fillStyle = isVandeBharat ? "#f8fafc" : "#b91c1c";
+    // Aerodynamic Vande Bharat Bullet Nose
+    ctx.fillStyle = isVandeBharat ? "#EEEBDA" : "#8A1C1C";
     ctx.beginPath();
-    ctx.moveTo(0, -36);
-    ctx.lineTo(40, -10);
-    ctx.lineTo(35, 6);
-    ctx.lineTo(0, 8);
+    ctx.moveTo(0, -42);
+    ctx.lineTo(55, -12);
+    ctx.lineTo(50, 10);
+    ctx.lineTo(0, 10);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Nose livery curve
+    ctx.fillStyle = isVandeBharat ? "#282B4A" : "#F6AE2D";
+    ctx.beginPath();
+    ctx.moveTo(0, -15);
+    ctx.lineTo(45, -3);
+    ctx.lineTo(40, 5);
+    ctx.lineTo(0, 5);
     ctx.closePath();
     ctx.fill();
 
-    // Twin High-beam headlights
-    ctx.fillStyle = "#ffffff";
-    ctx.shadowColor = "#00e5ff";
-    ctx.shadowBlur = 14;
+    // Twin High-beam Headlights
+    ctx.fillStyle = "#FFF9E6";
+    ctx.shadowColor = "#F26419";
+    ctx.shadowBlur = 16;
     ctx.beginPath();
-    ctx.arc(36, -4, 4, 0, Math.PI * 2);
+    ctx.arc(48, -4, 5, 0, Math.PI * 2);
     ctx.fill();
+    ctx.shadowBlur = 0;
 
     ctx.restore();
   }
 
-  drawStationBoard(ctx, w, platY, tele) {
-    // Large Authentic Overhead Indian Railways Platform Board
-    const boardW = 340;
-    const boardH = 52;
+  drawStationBoard(ctx, w, platY, tele, isDocked, isApproaching) {
+    const boardW = 380;
+    const boardH = 58;
     const bx = (w - boardW) / 2;
-    const by = platY - 95;
+    const by = platY - 105;
 
     // Midnight Indigo casing with Vanilla Border
     ctx.fillStyle = "#181A2D";
@@ -189,14 +236,21 @@ export class PlatformView {
     ctx.fillStyle = "#FFDD00";
     ctx.font = "bold 13px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`${tele.nextStation.toUpperCase()} — PLATFORM ${tele.nextStationPlatform}`, w / 2, by + 21);
+    ctx.fillText(`${tele.nextStation.toUpperCase()} — PLATFORM ${tele.nextStationPlatform}`, w / 2, by + 22);
 
-    ctx.fillStyle = tele.isStationDwell ? "#2EC4B6" : "#EEEBDA";
-    ctx.font = "11px monospace";
-    const statusText = tele.isStationDwell 
-      ? `HALTED AT DOCK: DEPARTS IN ${tele.dwellSecondsLeft}s` 
-      : `APPROACHING: ${tele.speedKmh} KM/H (ETA: ${tele.etaMinutes} MIN)`;
-    ctx.fillText(statusText, w / 2, by + 39);
+    let statusText = "";
+    if (isDocked) {
+      ctx.fillStyle = "#2EC4B6";
+      statusText = `HALTED AT DOCK: DEPARTS IN ${tele.dwellSecondsLeft}s`;
+    } else if (isApproaching) {
+      ctx.fillStyle = "#F6AE2D";
+      statusText = `APPROACHING PLATFORM: ${tele.speedKmh} KM/H (ETA: ${tele.etaMinutes}m)`;
+    } else {
+      ctx.fillStyle = "#6AD5FF";
+      statusText = `⚡ EXPRESS TRACK: 22436 PASSING AT ${tele.speedKmh} KM/H`;
+    }
+
+    ctx.font = "bold 11px monospace";
+    ctx.fillText(statusText, w / 2, by + 42);
   }
 }
-

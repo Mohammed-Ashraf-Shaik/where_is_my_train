@@ -16,8 +16,9 @@ export class PlatformWalkLocatorComponent {
     if (!train) return;
     this.train = train;
     // Set default coach from formation
-    if (train.coaches && train.coaches.length > 0) {
-      this.selectedCoach = train.coaches[Math.floor(train.coaches.length / 2)]?.code || "C4";
+    const rake = train.rakeComposition || train.coaches || [];
+    if (rake.length > 0) {
+      this.selectedCoach = rake[Math.floor(rake.length / 2)]?.code || "C4";
     }
     this.render();
   }
@@ -34,7 +35,7 @@ export class PlatformWalkLocatorComponent {
     };
 
     // Calculate coach platform positions (each coach ~24m long + engine 22m)
-    const coaches = this.train?.coaches || [
+    const coaches = this.train?.rakeComposition || this.train?.coaches || [
       { code: "ENG", type: "WAP-7 Locomotive" },
       { code: "C1", type: "Chair Car" },
       { code: "C2", type: "Chair Car" },

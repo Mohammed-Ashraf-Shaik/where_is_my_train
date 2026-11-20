@@ -1,6 +1,7 @@
 /**
  * RailPulse AI - Advanced Locomotive Telemetry & Energy Dynamics
  * Real-time regenerative energy recovery (kWh), tractive effort (kN) & track elevation profile
+ * Throttled rendering (300ms) for high performance & zero DOM churn
  * Editorial Midnight Indigo (#282B4A) & Vanilla (#EEEBDA) Design System
  */
 
@@ -8,6 +9,7 @@ export class AdvancedTelemetryComponent {
   constructor(containerId) {
     this.container = document.getElementById(containerId);
     this.totalEnergySavedKwh = 142.8;
+    this.lastRenderTime = 0;
   }
 
   render(telemetry, train) {
@@ -18,6 +20,11 @@ export class AdvancedTelemetryComponent {
     if (isRegen) {
       this.totalEnergySavedKwh += (telemetry.speedKmh / 3600) * 0.45;
     }
+
+    // Throttle DOM rebuild to ~3Hz (300ms)
+    const now = performance.now();
+    if (now - this.lastRenderTime < 300) return;
+    this.lastRenderTime = now;
 
     const tractiveEffortKn = telemetry.isBraking ? 0 : Math.round(telemetry.throttlePct * 3.2);
     const catenaryVoltageKv = 24.8 + (Math.random() * 0.4 - 0.2);

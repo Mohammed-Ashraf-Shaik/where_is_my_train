@@ -174,6 +174,22 @@
         <!-- 3. Station Platform Container -->
         <div id="platformContainer" class="w-full h-full absolute inset-0 hidden"></div>
 
+        <!-- Floating In-Canvas Tactile Controls -->
+        <div class="absolute bottom-3 left-4 flex items-center space-x-1.5 z-20 bg-[#1C1E34]/85 backdrop-blur-md p-1 rounded-xl border border-[#EEEBDA]/20 shadow-lg">
+          <button id="quickHonkBtn" title="Honk Locomotive Horn (Space)" class="px-2.5 py-1 rounded-lg bg-[#F26419] hover:bg-[#d85511] text-[#EEEBDA] text-xs font-bold transition flex items-center space-x-1 shadow">
+            <span>📢</span><span>Horn</span>
+          </button>
+          <button id="quickAccelBtn" title="Accelerate Speed (W)" class="px-2 py-1 rounded-lg bg-[#32365C] hover:bg-[#3E4370] text-[#2EC4B6] text-xs font-mono font-bold border border-[#EEEBDA]/15 transition">
+            ▲ +10
+          </button>
+          <button id="quickBrakeBtn" title="Decelerate / Emergency Brake (S)" class="px-2 py-1 rounded-lg bg-[#32365C] hover:bg-[#3E4370] text-[#E71D36] text-xs font-mono font-bold border border-[#EEEBDA]/15 transition">
+            ▼ Brake
+          </button>
+          <button id="quickCamBtn" title="Cycle Camera Views (C)" class="px-2 py-1 rounded-lg bg-[#32365C] hover:bg-[#3E4370] text-[#EEEBDA] text-xs font-bold border border-[#EEEBDA]/15 transition">
+            🎥 View
+          </button>
+        </div>
+
         <!-- Live Speed Watermark Overlay -->
         <div class="absolute bottom-3 right-4 pointer-events-none text-right">
           <div id="watermarkSpeed" class="text-3xl font-black font-mono text-[#EEEBDA] leading-none">124</div>
