@@ -147,20 +147,20 @@ export class TrackRenderer {
 
   drawTerrain(width, height) {
     const ctx = this.ctx;
-    // Ground gradient
+    // Ground gradient with Midnight Indigo (#282B4A) and Vanilla (#EEEBDA)
     const grad = ctx.createRadialGradient(width / 2, height / 2, 50, width / 2, height / 2, width);
     if (this.isNightMode) {
-      grad.addColorStop(0, "#08101e");
-      grad.addColorStop(1, "#04070d");
+      grad.addColorStop(0, "#282B4A"); // Midnight Indigo
+      grad.addColorStop(1, "#181A2D"); // Deepest Indigo
     } else {
-      grad.addColorStop(0, "#e4ebf5");
-      grad.addColorStop(1, "#c8d6e5");
+      grad.addColorStop(0, "#FAF8F2"); // Cream Vanilla
+      grad.addColorStop(1, "#EEEBDA"); // Warm Vanilla
     }
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
-    // Subtle grid overlay for high-tech HUD feel
-    ctx.strokeStyle = this.isNightMode ? "rgba(0, 229, 255, 0.03)" : "rgba(0, 102, 204, 0.04)";
+    // Subtle transit topography grid
+    ctx.strokeStyle = this.isNightMode ? "rgba(238, 235, 218, 0.035)" : "rgba(40, 43, 74, 0.04)";
     ctx.lineWidth = 1;
     const gridSize = 40;
     const startX = -(this.cameraX % gridSize);
@@ -180,7 +180,7 @@ export class TrackRenderer {
   drawBallast() {
     const ctx = this.ctx;
     ctx.save();
-    ctx.strokeStyle = this.isNightMode ? "#1a2436" : "#8d99ae";
+    ctx.strokeStyle = this.isNightMode ? "#1E2036" : "#DDD7C3";
     ctx.lineWidth = 32;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -200,7 +200,7 @@ export class TrackRenderer {
     const ctx = this.ctx;
     ctx.save();
     const sleeperCount = 280;
-    ctx.strokeStyle = this.isNightMode ? "#2f3e55" : "#4a5568";
+    ctx.strokeStyle = this.isNightMode ? "#393D66" : "#AFA895";
     ctx.lineWidth = 4;
 
     for (let i = 0; i <= sleeperCount; i++) {
@@ -228,7 +228,7 @@ export class TrackRenderer {
 
     const steps = 350;
     for (let side = -1; side <= 1; side += 2) {
-      ctx.strokeStyle = this.isNightMode ? "#8fe5ff" : "#2b2d42";
+      ctx.strokeStyle = this.isNightMode ? "#D4D0BE" : "#32365C";
       ctx.lineWidth = 2.2;
       ctx.beginPath();
 
@@ -320,11 +320,11 @@ export class TrackRenderer {
       ctx.strokeStyle = "#334155";
       ctx.strokeRect(sx - 4, sy - 28, 8, 16);
 
-      // Signal Lamp
-      let color = "#00ff88"; // Green
-      if (signalAspect === "RED") color = "#ff334b";
-      else if (signalAspect === "YELLOW") color = "#ffb300";
-      else if (signalAspect === "DOUBLE_YELLOW") color = "#ffd000";
+      // Signal Lamp (ISO Railway Aspect)
+      let color = "#2EC4B6"; // Clear
+      if (signalAspect === "RED") color = "#E71D36"; // Danger
+      else if (signalAspect === "YELLOW") color = "#F6AE2D"; // Caution
+      else if (signalAspect === "DOUBLE_YELLOW") color = "#F6AE2D"; // Attention
 
       ctx.fillStyle = color;
       ctx.shadowColor = color;
@@ -396,18 +396,18 @@ export class TrackRenderer {
   }
 
   drawLocomotive(ctx, len) {
-    // Twin Headlight Light Cones slicing the track ahead
+    // Warm incandescent locomotive headlamp beams casting onto the track ahead
     if (this.isNightMode) {
-      const coneGrad = ctx.createRadialGradient(len / 2 + 10, 0, 2, len / 2 + 140, 0, 60);
-      coneGrad.addColorStop(0, "rgba(255, 255, 220, 0.85)");
-      coneGrad.addColorStop(0.3, "rgba(0, 229, 255, 0.45)");
-      coneGrad.addColorStop(1, "rgba(0, 229, 255, 0)");
+      const coneGrad = ctx.createRadialGradient(len / 2 + 10, 0, 2, len / 2 + 150, 0, 65);
+      coneGrad.addColorStop(0, "rgba(255, 248, 220, 0.95)"); // Warm golden beam
+      coneGrad.addColorStop(0.35, "rgba(242, 100, 25, 0.35)"); // Warm transit amber
+      coneGrad.addColorStop(1, "rgba(40, 43, 74, 0)");
 
       ctx.fillStyle = coneGrad;
       ctx.beginPath();
       ctx.moveTo(len / 2 + 12, -4);
-      ctx.lineTo(len / 2 + 140, -50);
-      ctx.lineTo(len / 2 + 140, 50);
+      ctx.lineTo(len / 2 + 150, -55);
+      ctx.lineTo(len / 2 + 150, 55);
       ctx.lineTo(len / 2 + 12, 4);
       ctx.closePath();
       ctx.fill();
@@ -415,8 +415,8 @@ export class TrackRenderer {
 
     // Aerodynamic Body
     const isVandeBharat = this.train.number.includes("22436") || this.train.name.includes("Vande Bharat");
-    ctx.fillStyle = isVandeBharat ? "#ffffff" : "#c1121f"; // White/Blue for Vande Bharat, Crimson for Rajdhani
-    ctx.strokeStyle = isVandeBharat ? "#003049" : "#780000";
+    ctx.fillStyle = isVandeBharat ? "#EEEBDA" : "#991B1B"; // Vanilla white for Vande Bharat, Heritage Maroon for Rajdhani
+    ctx.strokeStyle = isVandeBharat ? "#282B4A" : "#5F1414";
     ctx.lineWidth = 1.5;
 
     // Bullet nose curve
@@ -429,12 +429,12 @@ export class TrackRenderer {
     ctx.fill();
     ctx.stroke();
 
-    // Vande Bharat Navy / Rajdhani Gold Racing Stripe
-    ctx.fillStyle = isVandeBharat ? "#0077b6" : "#fdf0d5";
+    // Livery Racing Stripe
+    ctx.fillStyle = isVandeBharat ? "#282B4A" : "#F6AE2D";
     ctx.fillRect(-len / 2, -2, len - 2, 4);
 
     // Dark Windshield Glass
-    ctx.fillStyle = "#0f172a";
+    ctx.fillStyle = "#161828";
     ctx.beginPath();
     ctx.moveTo(len / 2 - 4, -5);
     ctx.lineTo(len / 2 + 5, -2);
@@ -443,32 +443,31 @@ export class TrackRenderer {
     ctx.closePath();
     ctx.fill();
 
-    // Headlight LED bulbs
-    ctx.fillStyle = "#ffffff";
-    ctx.shadowColor = "#00e5ff";
+    // Warm Headlight Dual Bulbs
+    ctx.fillStyle = "#FFF9E6";
+    ctx.shadowColor = "#F26419";
     ctx.shadowBlur = 10;
     ctx.fillRect(len / 2 + 8, -4, 3, 2.5);
     ctx.fillRect(len / 2 + 8, 1.5, 3, 2.5);
+    ctx.shadowBlur = 0;
   }
 
   drawPassengerCoach(ctx, len, coachInfo) {
     // Coach Body
     const isVandeBharat = this.train.name.includes("Vande Bharat");
-    ctx.fillStyle = isVandeBharat ? "#f8fafc" : "#b91c1c";
-    ctx.strokeStyle = isVandeBharat ? "#0077b6" : "#991b1b";
+    ctx.fillStyle = isVandeBharat ? "#EEEBDA" : "#8A1C1C";
+    ctx.strokeStyle = isVandeBharat ? "#282B4A" : "#521212";
     ctx.lineWidth = 1.2;
 
     ctx.fillRect(-len / 2, -6.5, len, 13);
     ctx.strokeRect(-len / 2, -6.5, len, 13);
 
     // Coach Accent Livery Line
-    ctx.fillStyle = isVandeBharat ? "#0284c7" : "#fef08a";
+    ctx.fillStyle = isVandeBharat ? "#282B4A" : "#F6AE2D";
     ctx.fillRect(-len / 2, -1, len, 2);
 
-    // Glowing Illuminated Passenger Windows
-    ctx.fillStyle = this.isNightMode ? "#fef08a" : "#38bdf8";
-    ctx.shadowColor = this.isNightMode ? "#fef08a" : "#0284c7";
-    ctx.shadowBlur = this.isNightMode ? 4 : 0;
+    // Illuminated Passenger Windows with Warm Vanilla Glow
+    ctx.fillStyle = this.isNightMode ? "#FFF5C0" : "#282B4A";
     const winWidth = 3;
     const winGap = 2;
     for (let w = -len / 2 + 4; w < len / 2 - 4; w += winWidth + winGap) {
