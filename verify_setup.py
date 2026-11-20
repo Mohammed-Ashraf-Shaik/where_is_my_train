@@ -37,7 +37,11 @@ REQUIRED_FILES = [
     "js/components/liveStationBoard.js",
     "js/components/berthInspector.js",
     "js/components/eCatering.js",
-    "js/components/advancedTelemetry.js"
+    "js/components/advancedTelemetry.js",
+    "js/components/platformWalkLocator.js",
+    "js/components/trackTopologyMonitor.js",
+    "manifest.json",
+    "sw.js"
 ]
 
 def check_files():
