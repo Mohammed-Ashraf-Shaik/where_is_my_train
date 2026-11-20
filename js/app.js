@@ -271,6 +271,17 @@ class RailPulseApp {
       );
     });
 
+    document.getElementById("btnAnnounceEn")?.addEventListener("click", () => {
+      const tele = this.physics.getTelemetry();
+      this.announcements.speakAnnouncement(
+        this.currentTrain.number,
+        this.currentTrain.name,
+        tele.nextStation,
+        tele.nextStationPlatform,
+        "en"
+      );
+    });
+
     document.getElementById("btnEmergencySOS")?.addEventListener("click", () => {
       const incident = this.emergencyAid.triggerEmergencySOS(this.physics);
       alert(
