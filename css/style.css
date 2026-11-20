@@ -1,52 +1,74 @@
 /* ==========================================================================
-   RailPulse AI - Cyber-Railway Design System & Styles
+   RailPulse - Editorial Railway Design System
+   Color Identity: Midnight Indigo (#282B4A) & Vanilla (#EEEBDA)
+   Clean, human-crafted, high-contrast transit typography (No robotic AI neon clichés)
    ========================================================================== */
 
 :root {
-  --bg-dark: #070b14;
-  --bg-card: rgba(13, 22, 41, 0.75);
-  --bg-card-hover: rgba(20, 33, 61, 0.85);
-  --border-glass: rgba(0, 229, 255, 0.15);
-  --border-glass-bright: rgba(0, 229, 255, 0.4);
+  /* Core Theme Identity: Midnight Indigo */
+  --bg-primary: #1C1E34;
+  --bg-secondary: #282B4A;
+  --bg-surface: #32365C;
+  --bg-surface-elevated: #3E4370;
+  --bg-surface-hover: #484E82;
   
-  --rail-cyan: #00e5ff;
-  --rail-cyan-glow: rgba(0, 229, 255, 0.35);
-  --rail-green: #00ff88;
-  --rail-green-glow: rgba(0, 255, 136, 0.35);
-  --rail-amber: #ffb300;
-  --rail-amber-glow: rgba(255, 179, 0, 0.35);
-  --rail-red: #ff334b;
-  --rail-red-glow: rgba(255, 51, 75, 0.35);
-  --rail-purple: #9d4edd;
-  
-  --text-main: #f0f6fc;
-  --text-muted: #8b9bb4;
-  --text-dim: #4e5d78;
+  /* Text & Foreground: Warm Vanilla */
+  --text-primary: #EEEBDA;
+  --text-secondary: #C8C5B4;
+  --text-muted: #8F91A8;
+  --text-dim: #656988;
 
-  --speedometer-accent: #00e5ff;
-  --hud-grid: rgba(0, 229, 255, 0.05);
+  /* Accent Tones: Warm Transit Amber & Soft Sky Diamond */
+  --accent-warm: #F26419;
+  --accent-warm-hover: #E65100;
+  --accent-sky: #6AD5FF;
+  --accent-gold: #F6AE2D;
+
+  /* Authentic Railway Signal Aspects (ISO Railway Standard) */
+  --signal-green: #2EC4B6;
+  --signal-green-bg: rgba(46, 196, 182, 0.15);
+  --signal-amber: #F6AE2D;
+  --signal-amber-bg: rgba(246, 174, 45, 0.15);
+  --signal-red: #E71D36;
+  --signal-red-bg: rgba(231, 29, 54, 0.15);
+
+  /* Subtle Warm Borders */
+  --border-subtle: rgba(238, 235, 218, 0.12);
+  --border-strong: rgba(238, 235, 218, 0.28);
+  --shadow-card: 0 10px 30px -5px rgba(12, 13, 26, 0.5);
 }
 
 [data-theme="light"] {
-  --bg-dark: #f0f4f8;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-card-hover: rgba(245, 248, 252, 0.95);
-  --border-glass: rgba(0, 102, 204, 0.2);
-  --border-glass-bright: rgba(0, 102, 204, 0.45);
-  
-  --rail-cyan: #0077b6;
-  --rail-cyan-glow: rgba(0, 119, 182, 0.25);
-  --rail-green: #0a9396;
-  --rail-green-glow: rgba(10, 147, 150, 0.25);
-  --rail-amber: #ee9b00;
-  --rail-amber-glow: rgba(238, 155, 0, 0.25);
-  --rail-red: #ae2012;
-  --rail-red-glow: rgba(174, 32, 18, 0.25);
-  
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-dim: #94a3b8;
-  --hud-grid: rgba(0, 102, 204, 0.05);
+  /* Vanilla Primary Theme */
+  --bg-primary: #EEEBDA;
+  --bg-secondary: #FAF8F2;
+  --bg-surface: #E4E0CE;
+  --bg-surface-elevated: #D8D3BF;
+  --bg-surface-hover: #CCC6AF;
+
+  /* Text & Foreground: Midnight Indigo */
+  --text-primary: #282B4A;
+  --text-secondary: #3D426E;
+  --text-muted: #626792;
+  --text-dim: #8B8FA8;
+
+  /* Accent Tones */
+  --accent-warm: #D9480F;
+  --accent-warm-hover: #BF360C;
+  --accent-sky: #0077B6;
+  --accent-gold: #D48806;
+
+  /* Signal Aspects */
+  --signal-green: #0F766E;
+  --signal-green-bg: rgba(15, 118, 110, 0.12);
+  --signal-amber: #B45309;
+  --signal-amber-bg: rgba(180, 83, 9, 0.12);
+  --signal-red: #B91C1C;
+  --signal-red-bg: rgba(185, 28, 28, 0.12);
+
+  --border-subtle: rgba(40, 43, 74, 0.14);
+  --border-strong: rgba(40, 43, 74, 0.32);
+  --shadow-card: 0 10px 25px -5px rgba(40, 43, 74, 0.12);
 }
 
 * {
@@ -56,184 +78,124 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background-color 0.4s ease, color 0.4s ease;
-  user-select: none;
+  transition: background-color 0.35s ease, color 0.35s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism Panel */
-.glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* Editorial Headline Typography */
+.font-display {
+  font-family: "Cabinet Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 800;
 }
 
-.glass-panel:hover {
-  border-color: var(--border-glass-bright);
+/* Premium Card Panel (Clean, Matte, Non-Robotic) */
+.transit-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-/* Glowing Neon Borders */
-.glow-cyan {
-  box-shadow: 0 0 20px var(--rail-cyan-glow);
+.transit-card:hover {
+  border-color: var(--border-strong);
 }
 
-.glow-green {
-  box-shadow: 0 0 20px var(--rail-green-glow);
+.transit-surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
 }
 
-.glow-amber {
-  box-shadow: 0 0 20px var(--rail-amber-glow);
-}
-
-.glow-red {
-  box-shadow: 0 0 20px var(--rail-red-glow);
-}
-
-/* Custom Scrollbars */
+/* Custom Minimal Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 229, 255, 0.2);
+  background: var(--border-strong);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 229, 255, 0.5);
-}
-
-/* Radar & Pulse Animations */
-@keyframes pulseGlow {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 1;
-    box-shadow: 0 0 25px var(--rail-green);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite ease-in-out;
-}
-
-@keyframes radarSweep {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.radar-sweep {
-  animation: radarSweep 4s linear infinite;
-  transform-origin: center;
-}
-
-@keyframes signalBlink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0.3; }
-}
-
-.signal-blinking {
-  animation: signalBlink 1s infinite steps(1);
-}
-
-/* Wheel Track Clatter Animation */
-@keyframes trackMove {
-  from { background-position: 0 0; }
-  to { background-position: -200px 0; }
-}
-
-/* Sound Wave Bars */
-.sound-bar {
-  width: 3px;
-  background: var(--rail-cyan);
-  border-radius: 2px;
-  animation: soundWave 0.8s ease-in-out infinite alternate;
-}
-
-@keyframes soundWave {
-  0% { height: 4px; }
-  100% { height: 20px; }
+  background: var(--accent-warm);
 }
 
 /* Speedometer Dial SVG */
 .speed-gauge-circle {
-  transition: stroke-dashoffset 0.3s ease-out, stroke 0.3s ease;
+  transition: stroke-dashoffset 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Tooltip Badges */
+/* Clean Badges & Pills */
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.65rem;
+  padding: 0.28rem 0.75rem;
   border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-/* Switcher Tab Buttons */
+/* Camera & Feature Tab Buttons */
 .view-btn {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s ease;
+  color: var(--text-secondary);
 }
 .view-btn.active {
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(0, 255, 136, 0.15));
-  border-color: var(--rail-cyan);
-  color: #fff;
-  box-shadow: 0 0 15px var(--rail-cyan-glow);
+  background: var(--text-primary);
+  color: var(--bg-secondary);
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-/* Canvas View Container */
+/* AI / Feature Tabs */
+.feature-tab {
+  transition: all 0.2s ease;
+}
+.feature-tab.active {
+  background: var(--text-primary);
+  color: var(--bg-secondary);
+  border-color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* Canvas Viewport */
 #mainCanvasContainer {
   position: relative;
-  background: radial-gradient(circle at 50% 50%, #0e1a32 0%, #060a14 100%);
+  background-color: var(--bg-primary);
   overflow: hidden;
-  border-radius: 16px;
-  border: 1px solid var(--border-glass);
+  border-radius: 14px;
+  border: 1px solid var(--border-subtle);
 }
 
-/* HUD Overlay Elements */
-.hud-corner {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: var(--rail-cyan);
-  pointer-events: none;
-}
-.hud-tl { top: 8px; left: 8px; border-top: 2px solid; border-left: 2px solid; }
-.hud-tr { top: 8px; right: 8px; border-top: 2px solid; border-right: 2px solid; }
-.hud-bl { bottom: 8px; left: 8px; border-bottom: 2px solid; border-left: 2px solid; }
-.hud-br { bottom: 8px; right: 8px; border-bottom: 2px solid; border-right: 2px solid; }
-
-/* Custom AI Response Typing Pulse */
-.typing-dot {
-  width: 6px;
-  height: 6px;
-  background-color: var(--rail-cyan);
-  border-radius: 50%;
-  animation: typingBounce 1.4s infinite ease-in-out both;
-}
-.typing-dot:nth-child(1) { animation-delay: -0.32s; }
-.typing-dot:nth-child(2) { animation-delay: -0.16s; }
-@keyframes typingBounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+/* Station Yellow-Black IR Signboard Style */
+.ir-board {
+  background-color: #FFDD00;
+  color: #000000;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border: 2px solid #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Smooth Pulse Animation for Live GPS Pin */
+@keyframes transitPulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.transit-pulse {
+  animation: transitPulse 2s infinite ease-in-out;
+}
