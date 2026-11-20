@@ -75,23 +75,23 @@ export class BerthInspectorComponent {
     const selectedSeatObj = seats.find(s => s.number === this.selectedSeat) || seats[0];
 
     this.container.innerHTML = `
-      <div class="glass-panel p-4 mb-4">
+      <div class="transit-card p-4 mb-4 bg-[#282B4A] border-[#EEEBDA]/15 text-[#EEEBDA]">
         <!-- Header -->
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-cyan-500/20 pb-3">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-[#EEEBDA]/15 pb-3">
           <div class="flex items-center space-x-2">
             <span class="text-xl">🪑</span>
             <div>
-              <h3 class="font-bold text-sm tracking-wide text-cyan-400 uppercase">3D Coach Berth Map & Seat Inspector</h3>
-              <p class="text-[11px] text-slate-400">Interactive Berth Allocation & Passenger Comfort Guide</p>
+              <h3 class="font-bold text-sm tracking-wide text-[#EEEBDA] uppercase">3D Coach Berth Map & Seat Inspector</h3>
+              <p class="text-[11px] text-[#C8C5B4]">Interactive Berth Allocation & Passenger Comfort Guide</p>
             </div>
           </div>
 
           <!-- Coach Class Switcher -->
-          <div class="flex items-center space-x-1.5 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs">
+          <div class="flex items-center space-x-1.5 bg-[#1C1E34] p-1 rounded-xl border border-[#EEEBDA]/15 text-xs">
             ${["CC", "EC", "3A", "2A"].map(cls => `
               <button 
                 data-class="${cls}"
-                class="class-pill px-3 py-1 rounded-lg font-bold transition ${cls === this.selectedClass ? 'bg-cyan-600 text-white shadow-md' : 'text-slate-400 hover:text-white'}">
+                class="class-pill px-3 py-1 rounded-lg font-bold transition ${cls === this.selectedClass ? 'bg-[#EEEBDA] text-[#282B4A] shadow-md' : 'text-[#C8C5B4] hover:text-[#EEEBDA]'}">
                 ${cls}
               </button>
             `).join("")}
@@ -99,10 +99,10 @@ export class BerthInspectorComponent {
         </div>
 
         <!-- Coach Visual Shell -->
-        <div class="p-4 rounded-xl bg-slate-950/90 border border-slate-800 mb-4 select-none">
-          <div class="flex items-center justify-between text-xs text-slate-400 mb-3 px-2">
+        <div class="p-4 rounded-xl bg-[#1C1E34] border border-[#EEEBDA]/15 mb-4 select-none">
+          <div class="flex items-center justify-between text-xs text-[#C8C5B4] mb-3 px-2">
             <span>🚪 Toilet & Vestibule</span>
-            <span class="font-bold text-cyan-400 uppercase">Coach Center Corridor</span>
+            <span class="font-bold text-[#EEEBDA] uppercase">Coach Center Corridor</span>
             <span>Emergency Window 🚪</span>
           </div>
 
@@ -112,7 +112,7 @@ export class BerthInspectorComponent {
               ${seats.map(s => {
                 const isSelected = s.number === this.selectedSeat;
                 const isWindow = s.type.includes("Window") || s.type.includes("SL");
-                const bg = isSelected ? "bg-cyan-500 text-slate-950 font-black shadow-[0_0_10px_#00e5ff]" : isWindow ? "bg-cyan-950/60 border-cyan-500/40 text-cyan-300" : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-600";
+                const bg = isSelected ? "bg-[#EEEBDA] text-[#282B4A] font-black shadow-md border-[#EEEBDA]" : isWindow ? "bg-[#32365C] border-[#EEEBDA]/25 text-[#EEEBDA]" : "bg-[#282B4A] border-[#EEEBDA]/10 text-[#C8C5B4] hover:border-[#EEEBDA]/40";
                 return `
                   <button 
                     data-seat-num="${s.number}"
@@ -127,31 +127,31 @@ export class BerthInspectorComponent {
         </div>
 
         <!-- Selected Berth Detail Inspector Card -->
-        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center text-xs">
+        <div class="p-3.5 rounded-xl bg-[#1C1E34] border border-[#EEEBDA]/15 grid grid-cols-1 sm:grid-cols-3 gap-3 items-center text-xs">
           <div>
             <div class="flex items-center space-x-2">
-              <span class="w-7 h-7 rounded-lg bg-cyan-600/30 border border-cyan-400/40 text-cyan-300 flex items-center justify-center font-bold font-mono">
+              <span class="w-7 h-7 rounded-lg bg-[#EEEBDA] text-[#282B4A] flex items-center justify-center font-bold font-mono">
                 ${selectedSeatObj.number}
               </span>
               <div>
-                <strong class="text-white">Seat #${selectedSeatObj.number}</strong>
-                <span class="text-[11px] text-cyan-400 block">${selectedSeatObj.type}</span>
+                <strong class="text-[#EEEBDA]">Seat #${selectedSeatObj.number}</strong>
+                <span class="text-[11px] text-[#F26419] font-bold block">${selectedSeatObj.type}</span>
               </div>
             </div>
           </div>
 
           <div>
-            <span class="text-slate-400 text-[10px] uppercase font-semibold block mb-0.5">Berth Amenities</span>
-            <ul class="text-[11px] text-slate-300 space-y-0.5 list-disc list-inside">
+            <span class="text-[#C8C5B4] text-[10px] uppercase font-semibold block mb-0.5">Berth Amenities</span>
+            <ul class="text-[11px] text-[#EEEBDA] space-y-0.5 list-disc list-inside">
               ${selectedSeatObj.amenities.slice(0, 3).map(a => `<li>${a}</li>`).join("")}
             </ul>
           </div>
 
           <div class="text-right">
-            <span class="badge-pill bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+            <span class="badge-pill bg-[#2EC4B6]/20 text-[#2EC4B6] border border-[#2EC4B6]/40">
               CONFIRMED BERTH
             </span>
-            <div class="text-[10px] text-slate-400 mt-1 font-mono">Direct Window Facing View</div>
+            <div class="text-[10px] text-[#C8C5B4] mt-1 font-mono">Direct Window Facing View</div>
           </div>
         </div>
 
@@ -175,3 +175,4 @@ export class BerthInspectorComponent {
     });
   }
 }
+

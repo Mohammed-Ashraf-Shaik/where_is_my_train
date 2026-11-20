@@ -16,13 +16,13 @@ export class PNRCheckerComponent {
     const pnr = this.currentPNR;
 
     this.container.innerHTML = `
-      <div class="glass-panel p-4 mb-4">
-        <div class="flex items-center justify-between mb-3 border-b border-cyan-500/20 pb-2">
+      <div class="transit-card p-4 mb-4 bg-[#282B4A] border-[#EEEBDA]/15 text-[#EEEBDA]">
+        <div class="flex items-center justify-between mb-3 border-b border-[#EEEBDA]/15 pb-2">
           <div class="flex items-center space-x-2">
             <span class="text-xl">🎫</span>
-            <h3 class="font-bold text-sm tracking-wide text-cyan-400 uppercase">AI PNR Status & Confirmation Predictor</h3>
+            <h3 class="font-bold text-sm tracking-wide text-[#EEEBDA] uppercase">PNR Status & Confirmation Forecaster</h3>
           </div>
-          <span class="text-xs text-slate-400">10-Digit PNR Lookup</span>
+          <span class="text-xs text-[#C8C5B4]">10-Digit PNR Lookup</span>
         </div>
 
         <!-- Search Bar with Quick Sample Buttons -->
@@ -34,36 +34,36 @@ export class PNRCheckerComponent {
               maxlength="10"
               value="${pnr.pnr}" 
               placeholder="Enter 10-Digit PNR..."
-              class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3.5 py-2 text-sm text-cyan-300 font-mono focus:outline-none focus:border-cyan-400 transition"
+              class="w-full bg-[#1C1E34] border border-[#EEEBDA]/20 rounded-lg px-3.5 py-2 text-sm text-[#EEEBDA] font-mono focus:outline-none focus:border-[#EEEBDA] transition"
             />
           </div>
           <button 
             id="pnrSearchBtn"
-            class="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold rounded-lg shadow-md transition flex items-center justify-center space-x-1">
+            class="px-4 py-2 bg-[#F26419] hover:bg-[#E65100] text-white text-xs font-bold rounded-lg shadow-md transition flex items-center justify-center space-x-1">
             <span>🔍 CHECK PNR</span>
           </button>
         </div>
 
         <div class="flex items-center space-x-2 mb-4 text-xs">
-          <span class="text-slate-400">Quick Test PNRs:</span>
+          <span class="text-[#C8C5B4]">Quick Test PNRs:</span>
           ${COMMON_PNR_SAMPLES.map(s => `
             <button 
               data-sample-pnr="${s.pnr}"
-              class="sample-pnr-btn px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-cyan-400 font-mono text-[11px] border border-slate-700">
+              class="sample-pnr-btn px-2 py-0.5 rounded bg-[#32365C] hover:bg-[#EEEBDA] hover:text-[#282B4A] text-[#EEEBDA] font-mono text-[11px] border border-[#EEEBDA]/15 transition">
               ${s.pnr}
             </button>
           `).join("")}
         </div>
 
         <!-- PNR Status Result Box -->
-        <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-700/80 space-y-3">
-          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800 pb-2.5">
+        <div class="p-3.5 rounded-xl bg-[#1C1E34] border border-[#EEEBDA]/15 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-[#EEEBDA]/15 pb-2.5">
             <div>
-              <span class="text-xs font-bold text-white">${pnr.trainName} (${pnr.trainNumber})</span>
-              <div class="text-[11px] text-slate-400">Route: <strong class="text-cyan-400">${pnr.from} ➔ ${pnr.to}</strong> | Class: <strong class="text-amber-400">${pnr.class}</strong> | DOJ: <strong>${pnr.doj}</strong></div>
+              <span class="text-xs font-bold text-[#EEEBDA]">${pnr.trainName} (${pnr.trainNumber})</span>
+              <div class="text-[11px] text-[#C8C5B4]">Route: <strong class="text-[#EEEBDA]">${pnr.from} ➔ ${pnr.to}</strong> | Class: <strong class="text-[#F6AE2D]">${pnr.class}</strong> | DOJ: <strong>${pnr.doj}</strong></div>
             </div>
             <div class="text-right">
-              <span class="badge-pill bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              <span class="badge-pill bg-[#2EC4B6]/20 text-[#2EC4B6] border border-[#2EC4B6]/40">
                 ${pnr.chartStatus}
               </span>
             </div>
@@ -72,20 +72,20 @@ export class PNRCheckerComponent {
           <!-- Passenger Rows -->
           <div class="space-y-1.5">
             ${pnr.passengers.map(p => `
-              <div class="flex items-center justify-between text-xs p-2 rounded-lg bg-slate-800/60 border border-slate-700/50">
-                <span class="font-medium text-slate-300">Passenger #${p.number}</span>
-                <span class="text-slate-400">Booking: <strong class="text-amber-400 font-mono">${p.bookingStatus}</strong></span>
-                <span class="text-slate-400">Current: <strong class="text-emerald-400 font-mono">${p.currentStatus}</strong></span>
-                <span class="text-cyan-300 font-mono font-bold">${p.coach ? `Coach ${p.coach} / Berth ${p.berth}` : "--"}</span>
+              <div class="flex items-center justify-between text-xs p-2 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/10">
+                <span class="font-medium text-[#EEEBDA]">Passenger #${p.number}</span>
+                <span class="text-[#C8C5B4]">Booking: <strong class="text-[#F6AE2D] font-mono">${p.bookingStatus}</strong></span>
+                <span class="text-[#C8C5B4]">Current: <strong class="text-[#2EC4B6] font-mono">${p.currentStatus}</strong></span>
+                <span class="text-[#EEEBDA] font-mono font-bold">${p.coach ? `Coach ${p.coach} / Berth ${p.berth}` : "--"}</span>
               </div>
             `).join("")}
           </div>
 
           <!-- AI Prediction Banner -->
-          <div class="p-2.5 rounded-lg bg-cyan-950/40 border border-cyan-500/30 flex items-center space-x-2.5 text-xs text-cyan-200">
+          <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15 flex items-center space-x-2.5 text-xs text-[#EEEBDA]">
             <span class="text-base">🧠</span>
             <div>
-              <strong class="text-cyan-400">AI Confirmation Forecast:</strong> ${pnr.aiPrediction}
+              <strong class="text-[#F26419]">Confirmation Forecast:</strong> ${pnr.aiPrediction}
             </div>
           </div>
         </div>

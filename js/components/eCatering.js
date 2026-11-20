@@ -1,6 +1,7 @@
 /**
  * RailPulse AI - IRCTC E-Catering Station Food Explorer & Seat Delivery
  * Curates famous regional culinary specialties and simulates hot meal delivery to passenger seats
+ * Editorial Midnight Indigo (#282B4A) & Vanilla (#EEEBDA) Design System
  */
 
 export const STATION_FOOD_DIRECTORY = {
@@ -59,24 +60,24 @@ export class ECateringComponent {
     });
 
     this.container.innerHTML = `
-      <div class="glass-panel p-4 mb-4">
+      <div class="transit-card p-4 mb-4 bg-[#282B4A] border-[#EEEBDA]/15 text-[#EEEBDA]">
         <!-- Header -->
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-cyan-500/20 pb-3">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-[#EEEBDA]/15 pb-3">
           <div class="flex items-center space-x-2">
             <span class="text-xl">🍱</span>
             <div>
-              <h3 class="font-bold text-sm tracking-wide text-cyan-400 uppercase">IRCTC e-Catering & Famous Station Food</h3>
-              <p class="text-[11px] text-slate-400">Order Hot Regional Dishes Delivered Directly to Your Coach Seat</p>
+              <h3 class="font-bold text-sm tracking-wide text-[#EEEBDA] uppercase">IRCTC e-Catering & Famous Station Food</h3>
+              <p class="text-[11px] text-[#C8C5B4]">Order Hot Regional Specialties Delivered Directly to Your Coach Seat</p>
             </div>
           </div>
 
           <!-- Station Pills -->
           <div class="flex items-center space-x-1.5 text-xs overflow-x-auto">
-            <span class="text-slate-400 mr-1">Station:</span>
+            <span class="text-[#C8C5B4] mr-1">Station:</span>
             ${Object.keys(STATION_FOOD_DIRECTORY).map(code => `
               <button 
                 data-st-code="${code}"
-                class="st-food-pill px-2.5 py-1 rounded-lg border font-mono font-bold transition ${code === this.currentStationCode ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md' : 'bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500'}">
+                class="st-food-pill px-2.5 py-1 rounded-lg border font-mono font-bold transition ${code === this.currentStationCode ? 'bg-[#EEEBDA] text-[#282B4A] border-[#EEEBDA] shadow-md' : 'bg-[#1C1E34] border-[#EEEBDA]/15 text-[#C8C5B4] hover:border-[#EEEBDA]/35 hover:text-[#EEEBDA]'}">
                 ${code}
               </button>
             `).join("")}
@@ -86,25 +87,25 @@ export class ECateringComponent {
         <!-- Food Cards Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-4">
           ${filtered.map(food => `
-            <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between space-y-2 hover:border-slate-700 transition">
+            <div class="p-3 rounded-xl bg-[#1C1E34] border border-[#EEEBDA]/15 flex flex-col justify-between space-y-2 hover:border-[#EEEBDA]/35 transition">
               <div>
                 <div class="flex items-center justify-between text-xs mb-1">
-                  <span class="w-3.5 h-3.5 rounded-sm border ${food.type === 'veg' ? 'border-emerald-500 flex items-center justify-center' : 'border-red-500 flex items-center justify-center'}">
-                    <span class="w-1.5 h-1.5 rounded-full ${food.type === 'veg' ? 'bg-emerald-500' : 'bg-red-500'}"></span>
+                  <span class="w-3.5 h-3.5 rounded-sm border ${food.type === 'veg' ? 'border-[#2EC4B6] flex items-center justify-center' : 'border-[#E71D36] flex items-center justify-center'}">
+                    <span class="w-1.5 h-1.5 rounded-full ${food.type === 'veg' ? 'bg-[#2EC4B6]' : 'bg-[#E71D36]'}"></span>
                   </span>
-                  <span class="text-amber-400 font-bold font-mono text-[11px]">⭐ ${food.rating}</span>
+                  <span class="text-[#F6AE2D] font-bold font-mono text-[11px]">⭐ ${food.rating}</span>
                 </div>
-                <h4 class="font-bold text-sm text-white">${food.name}</h4>
-                <div class="text-[10px] text-slate-400">By: <strong class="text-cyan-300">${food.vendor}</strong></div>
+                <h4 class="font-bold text-sm text-[#EEEBDA]">${food.name}</h4>
+                <div class="text-[10px] text-[#C8C5B4]">By: <strong class="text-[#EEEBDA]">${food.vendor}</strong></div>
               </div>
 
-              <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-                <span class="text-base font-black font-mono text-white">₹${food.price}</span>
+              <div class="flex items-center justify-between pt-2 border-t border-[#EEEBDA]/10">
+                <span class="text-base font-black font-mono text-[#EEEBDA]">₹${food.price}</span>
                 <button 
                   data-food-id="${food.id}"
                   data-food-name="${food.name}"
                   data-food-price="${food.price}"
-                  class="order-food-btn px-3 py-1.5 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-bold rounded-lg shadow-md transition flex items-center space-x-1">
+                  class="order-food-btn px-3 py-1.5 bg-[#F26419] hover:bg-[#d85511] text-[#EEEBDA] text-xs font-bold rounded-lg shadow-md transition flex items-center space-x-1">
                   <span>🛒</span><span>ORDER SEAT</span>
                 </button>
               </div>
@@ -113,7 +114,7 @@ export class ECateringComponent {
         </div>
 
         <!-- Delivery Guarantee Footer -->
-        <div class="p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 flex items-center justify-between text-xs text-amber-200">
+        <div class="p-2.5 rounded-lg bg-[#32365C] border border-[#EEEBDA]/20 flex items-center justify-between text-xs text-[#EEEBDA]">
           <div class="flex items-center space-x-2">
             <span>🛡️</span>
             <span><strong>IRCTC Cleanliness & Quality Seal:</strong> Delivered hot & fresh in tamper-proof seal packaging to Coach & Seat Number at the platform stop.</span>

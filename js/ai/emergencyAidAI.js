@@ -56,3 +56,4 @@ export class EmergencyAidAI {
     return ticket;
   }
 }
+

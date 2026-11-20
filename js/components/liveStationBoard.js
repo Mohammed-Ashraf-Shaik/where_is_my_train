@@ -64,23 +64,23 @@ export class LiveStationBoardComponent {
     const timetable = this.getStationTimetable(this.selectedStationCode);
 
     this.container.innerHTML = `
-      <div class="glass-panel p-4 mb-4">
+      <div class="transit-card p-4 mb-4 bg-[#282B4A] border-[#EEEBDA]/15 text-[#EEEBDA]">
         <!-- Header -->
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-cyan-500/20 pb-3">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-[#EEEBDA]/15 pb-3">
           <div class="flex items-center space-x-2">
             <span class="text-xl">🚉</span>
             <div>
-              <h3 class="font-bold text-sm tracking-wide text-cyan-400 uppercase">Live Station Board & Train Search</h3>
-              <p class="text-[11px] text-slate-400">Electronic Arrival & Departure Display Boards</p>
+              <h3 class="font-bold text-sm tracking-wide text-[#EEEBDA] uppercase">Live Station Board & Train Search</h3>
+              <p class="text-[11px] text-[#C8C5B4]">Electronic Arrival & Departure Display Boards</p>
             </div>
           </div>
 
           <!-- Station Selector Dropdown -->
           <div class="flex items-center space-x-2">
-            <span class="text-xs text-slate-400">Station:</span>
+            <span class="text-xs text-[#C8C5B4]">Station:</span>
             <select 
               id="stationSelectDropdown" 
-              class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-semibold text-cyan-300 focus:outline-none focus:border-cyan-400 cursor-pointer">
+              class="bg-[#32365C] border border-[#EEEBDA]/20 rounded-lg px-3 py-1.5 text-xs font-semibold text-[#EEEBDA] focus:outline-none focus:border-[#EEEBDA] cursor-pointer">
               ${stations.map(s => `
                 <option value="${s.code}" ${s.code === this.selectedStationCode ? 'selected' : ''}>
                   ${s.code} - ${s.name}
@@ -91,33 +91,33 @@ export class LiveStationBoardComponent {
         </div>
 
         <!-- Station-to-Station Quick Finder Bar -->
-        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 mb-4 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+        <div class="p-3 rounded-xl bg-[#1C1E34] border border-[#EEEBDA]/15 mb-4 grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
           <div>
-            <label class="text-[10px] text-slate-400 block mb-0.5">From Station</label>
-            <select id="routeFromSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+            <label class="text-[10px] text-[#C8C5B4] block mb-0.5">From Station</label>
+            <select id="routeFromSelect" class="w-full bg-[#282B4A] border border-[#EEEBDA]/20 rounded-lg p-2 text-xs text-[#EEEBDA]">
               ${stations.map(s => `<option value="${s.code}">${s.name} (${s.code})</option>`).join("")}
             </select>
           </div>
           <div>
-            <label class="text-[10px] text-slate-400 block mb-0.5">To Station</label>
-            <select id="routeToSelect" class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-200">
+            <label class="text-[10px] text-[#C8C5B4] block mb-0.5">To Station</label>
+            <select id="routeToSelect" class="w-full bg-[#282B4A] border border-[#EEEBDA]/20 rounded-lg p-2 text-xs text-[#EEEBDA]">
               ${stations.map((s, i) => `<option value="${s.code}" ${i === 3 ? 'selected' : ''}>${s.name} (${s.code})</option>`).join("")}
             </select>
           </div>
           <div class="sm:self-end">
             <button 
               id="btnFindRouteTrains" 
-              class="w-full py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-bold rounded-lg shadow-md transition flex items-center justify-center space-x-1.5">
+              class="w-full py-2 bg-[#F26419] hover:bg-[#E65100] text-white text-xs font-bold rounded-lg shadow-md transition flex items-center justify-center space-x-1.5">
               <span>🔍</span><span>FIND TRAINS</span>
             </button>
           </div>
         </div>
 
         <!-- Electronic Railway Signboard Table -->
-        <div class="overflow-x-auto select-none rounded-xl border border-slate-800 bg-slate-950/70">
+        <div class="overflow-x-auto select-none rounded-xl border border-[#EEEBDA]/15 bg-[#1C1E34]">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
-              <tr class="bg-slate-900/90 border-b border-slate-800 text-slate-400 text-[10px] uppercase font-bold tracking-wider">
+              <tr class="bg-[#282B4A] border-b border-[#EEEBDA]/15 text-[#C8C5B4] text-[10px] uppercase font-bold tracking-wider">
                 <th class="p-3">Train # & Name</th>
                 <th class="p-3">Route</th>
                 <th class="p-3">Platform</th>
@@ -126,33 +126,33 @@ export class LiveStationBoardComponent {
                 <th class="p-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-800/60 font-mono">
+            <tbody class="divide-y divide-[#EEEBDA]/10 font-mono">
               ${timetable.length === 0 ? `
                 <tr>
-                  <td colspan="6" class="p-4 text-center text-slate-500">No scheduled trains found for this station.</td>
+                  <td colspan="6" class="p-4 text-center text-[#C8C5B4]">No scheduled trains found for this station.</td>
                 </tr>
               ` : timetable.map(item => {
-                const delayColor = item.delayMinutes === 0 ? "text-emerald-400" : item.delayMinutes <= 10 ? "text-amber-400" : "text-red-400";
+                const delayColor = item.delayMinutes === 0 ? "text-[#2EC4B6]" : item.delayMinutes <= 10 ? "text-[#F6AE2D]" : "text-[#E71D36]";
                 return `
-                  <tr class="hover:bg-slate-800/40 transition">
+                  <tr class="hover:bg-[#282B4A]/60 transition">
                     <td class="p-3 font-sans">
-                      <div class="font-bold text-white flex items-center space-x-1.5">
-                        <span class="text-cyan-400 font-mono">${item.trainNumber}</span>
+                      <div class="font-bold text-[#EEEBDA] flex items-center space-x-1.5">
+                        <span class="text-[#F26419] font-mono font-bold">${item.trainNumber}</span>
                         <span>${item.trainName}</span>
                       </div>
-                      <span class="text-[10px] text-slate-400 font-sans">${item.type}</span>
+                      <span class="text-[10px] text-[#C8C5B4] font-sans">${item.type}</span>
                     </td>
-                    <td class="p-3 text-slate-300 font-sans">
+                    <td class="p-3 text-[#EEEBDA] font-sans">
                       <div class="text-[11px]">${item.origin} ➔ ${item.destination}</div>
                     </td>
                     <td class="p-3">
-                      <span class="px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-[11px] font-bold font-sans">
+                      <span class="px-2 py-0.5 rounded-full bg-[#EEEBDA] text-[#282B4A] text-[11px] font-black font-sans">
                         P${item.platform}
                       </span>
                     </td>
-                    <td class="p-3 text-slate-300">
-                      <div><span class="text-slate-500 text-[10px]">STA:</span> ${item.schArr} | <span class="text-slate-500 text-[10px]">STD:</span> ${item.schDep}</div>
-                      <div class="text-[10px] text-cyan-400"><span class="text-slate-500">EXP:</span> ${item.actDep}</div>
+                    <td class="p-3 text-[#C8C5B4]">
+                      <div><span class="text-[#C8C5B4]/60 text-[10px]">STA:</span> ${item.schArr} | <span class="text-[#C8C5B4]/60 text-[10px]">STD:</span> ${item.schDep}</div>
+                      <div class="text-[10px] text-[#F26419]"><span class="text-[#C8C5B4]/60">EXP:</span> ${item.actDep}</div>
                     </td>
                     <td class="p-3">
                       <span class="font-bold ${delayColor}">${item.delayStatus}</span>
@@ -160,7 +160,7 @@ export class LiveStationBoardComponent {
                     <td class="p-3 text-right">
                       <button 
                         data-track-train-id="${item.trainId}"
-                        class="track-train-btn px-2.5 py-1 rounded-lg bg-cyan-600/30 hover:bg-cyan-600/60 border border-cyan-400/40 text-cyan-200 text-[11px] font-bold font-sans transition">
+                        class="track-train-btn px-2.5 py-1 rounded-lg bg-[#32365C] hover:bg-[#EEEBDA] hover:text-[#282B4A] border border-[#EEEBDA]/20 text-[#EEEBDA] text-[11px] font-bold font-sans transition">
                         🎯 Track Live
                       </button>
                     </td>
@@ -210,3 +210,4 @@ export class LiveStationBoardComponent {
     });
   }
 }
+
