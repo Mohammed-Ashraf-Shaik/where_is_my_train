@@ -111,6 +111,31 @@
           </button>
         </div>
 
+        <!-- Weather FX Selector Controls -->
+        <div class="flex items-center space-x-1 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs">
+          <span class="text-[10px] text-slate-400 px-1 font-semibold uppercase">Weather:</span>
+          <button id="weatherBtnClear" class="weather-btn px-2 py-1 rounded-lg text-cyan-300 font-bold bg-cyan-950 border border-cyan-500/40" title="Clear Tracks">☀️ Clear</button>
+          <button id="weatherBtnRain" class="weather-btn px-2 py-1 rounded-lg text-slate-400 hover:text-white" title="Monsoon Rain">🌧️ Rain</button>
+          <button id="weatherBtnFog" class="weather-btn px-2 py-1 rounded-lg text-slate-400 hover:text-white" title="Dense Fog">🌫️ Fog</button>
+          <button id="weatherBtnStorm" class="weather-btn px-2 py-1 rounded-lg text-slate-400 hover:text-white" title="Thunderstorm">⚡ Storm</button>
+        </div>
+
+        <!-- Soundboard & Emergency SOS Bar -->
+        <div class="flex items-center space-x-1.5">
+          <button id="btnWhistle" title="Guard Whistle" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-bold border border-slate-700 transition">
+            哨 Whistle
+          </button>
+          <button id="btnBell" title="Level Crossing Ding" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition">
+            🔔 Crossing
+          </button>
+          <button id="btnAnnounceHi" title="Hindi Station Announcement" class="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-300 text-xs font-bold border border-slate-700 transition">
+            🗣️ घोषणा
+          </button>
+          <button id="btnEmergencySOS" title="RailMadad 182 Emergency SOS" class="px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold shadow-md transition animate-pulse">
+            🚨 SOS
+          </button>
+        </div>
+
         <!-- HUD Status Banner -->
         <div class="flex items-center space-x-3 text-xs">
           <div class="flex items-center space-x-1.5 text-slate-400">
@@ -173,6 +198,18 @@
         </button>
         <button id="tabBtnCoaches" class="ai-tab-btn px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-xs font-bold hover:text-white flex items-center space-x-1.5">
           <span>🚃</span><span>Coach Locator & PNR</span>
+        </button>
+        <button id="tabBtnStationBoard" class="ai-tab-btn px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-xs font-bold hover:text-white flex items-center space-x-1.5">
+          <span>🚉</span><span>Station Board & Route</span>
+        </button>
+        <button id="tabBtnBerths" class="ai-tab-btn px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-xs font-bold hover:text-white flex items-center space-x-1.5">
+          <span>🪑</span><span>3D Berth Map</span>
+        </button>
+        <button id="tabBtnCatering" class="ai-tab-btn px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-xs font-bold hover:text-white flex items-center space-x-1.5">
+          <span>🍱</span><span>IRCTC Food Express</span>
+        </button>
+        <button id="tabBtnDynamics" class="ai-tab-btn px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 text-xs font-bold hover:text-white flex items-center space-x-1.5">
+          <span>⚡</span><span>Traction & G-Force</span>
         </button>
       </div>
 
@@ -290,6 +327,34 @@
       <div id="tabContentCoaches" class="ai-tab-panel hidden">
         <div id="coachLayoutContainer"></div>
         <div id="pnrCheckerContainer"></div>
+      </div>
+
+      <!-- ====================================================================
+           TAB 6: LIVE STATION BOARD & ROUTE SEARCH
+           ==================================================================== -->
+      <div id="tabContentStationBoard" class="ai-tab-panel hidden">
+        <div id="liveStationBoardContainer"></div>
+      </div>
+
+      <!-- ====================================================================
+           TAB 7: 3D COACH BERTH MAP & SEAT INSPECTOR
+           ==================================================================== -->
+      <div id="tabContentBerths" class="ai-tab-panel hidden">
+        <div id="berthInspectorContainer"></div>
+      </div>
+
+      <!-- ====================================================================
+           TAB 8: IRCTC E-CATERING & SEAT MEAL DELIVERY
+           ==================================================================== -->
+      <div id="tabContentCatering" class="ai-tab-panel hidden">
+        <div id="eCateringContainer"></div>
+      </div>
+
+      <!-- ====================================================================
+           TAB 9: LOCOMOTIVE TRACTION & RIDE DYNAMICS
+           ==================================================================== -->
+      <div id="tabContentDynamics" class="ai-tab-panel hidden">
+        <div id="advancedTelemetryContainer"></div>
       </div>
 
     </section>

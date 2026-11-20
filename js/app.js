@@ -16,6 +16,12 @@ import { OfflineTriangulator } from "./ai/offlineTriangulator.js";
 import { CoachLayoutComponent } from "./components/coachLayout.js";
 import { PNRCheckerComponent } from "./components/pnrChecker.js";
 import { TelemetryHUD } from "./components/telemetryHUD.js";
+import { LiveStationBoardComponent } from "./components/liveStationBoard.js";
+import { BerthInspectorComponent } from "./components/berthInspector.js";
+import { ECateringComponent } from "./components/eCatering.js";
+import { AdvancedTelemetryComponent } from "./components/advancedTelemetry.js";
+import { EmergencyAidAI } from "./ai/emergencyAidAI.js";
+import { StationAnnouncementPack } from "./audio/announcementPack.js";
 
 class RailPulseApp {
   constructor() {
@@ -31,6 +37,8 @@ class RailPulseApp {
     this.delayPredictor = new AIDelayPredictor();
     this.crowdPredictor = new AICrowdPredictor();
     this.triangulator = new OfflineTriangulator(this.sound);
+    this.emergencyAid = new EmergencyAidAI(this.sound);
+    this.announcements = new StationAnnouncementPack(this.sound);
 
     // Renderers & Views
     this.trackCanvas = document.getElementById("trackCanvas");
@@ -42,6 +50,17 @@ class RailPulseApp {
     this.telemetryHUD = new TelemetryHUD("telemetryHUDContainer", this.physics, this.sound);
     this.coachLayout = new CoachLayoutComponent("coachLayoutContainer");
     this.pnrChecker = new PNRCheckerComponent("pnrCheckerContainer");
+    this.stationBoard = new LiveStationBoardComponent("liveStationBoardContainer", (trainId) => {
+      const found = TRAIN_DATABASE.find(t => t.id === trainId);
+      if (found) {
+        const select = document.getElementById("trainSelect");
+        if (select) select.value = trainId;
+        this.setupTrainContext(found);
+      }
+    });
+    this.berthInspector = new BerthInspectorComponent("berthInspectorContainer");
+    this.eCatering = new ECateringComponent("eCateringContainer");
+    this.advancedTelemetry = new AdvancedTelemetryComponent("advancedTelemetryContainer");
 
     // Timing
     this.lastTime = performance.now();
@@ -72,14 +91,21 @@ class RailPulseApp {
     // 8. Bind Keyboard Shortcuts
     this.initKeyboardShortcuts();
 
-    // 9. Initial UI Render
+    // 9. Weather & Soundboard Handlers
+    this.initWeatherControls();
+    this.initSoundboardControls();
+
+    // 10. Initial UI Render
     this.coachLayout.render(this.currentTrain);
     this.pnrChecker.render();
+    this.stationBoard.render();
+    this.berthInspector.render();
+    this.eCatering.render();
     this.renderDelayPredictor();
     this.renderCrowdPredictor();
     this.renderOfflineTriangulator();
 
-    // 10. Start Animation & Simulation Loop
+    // 11. Start Animation & Simulation Loop
     requestAnimationFrame((t) => this.loop(t));
   }
 
@@ -176,7 +202,11 @@ class RailPulseApp {
       { btn: "tabBtnDelay", panel: "tabContentDelay" },
       { btn: "tabBtnCrowd", panel: "tabContentCrowd" },
       { btn: "tabBtnOffline", panel: "tabContentOffline" },
-      { btn: "tabBtnCoaches", panel: "tabContentCoaches" }
+      { btn: "tabBtnCoaches", panel: "tabContentCoaches" },
+      { btn: "tabBtnStationBoard", panel: "tabContentStationBoard" },
+      { btn: "tabBtnBerths", panel: "tabContentBerths" },
+      { btn: "tabBtnCatering", panel: "tabContentCatering" },
+      { btn: "tabBtnDynamics", panel: "tabContentDynamics" }
     ];
 
     tabs.forEach(t => {
@@ -192,6 +222,60 @@ class RailPulseApp {
         btn.classList.remove("bg-slate-900", "border-slate-700", "text-slate-400");
         document.getElementById(t.panel)?.classList.remove("hidden");
       });
+    });
+  }
+
+  initWeatherControls() {
+    const setWeather = (type, activeBtn) => {
+      this.trackRenderer.weatherFX.setWeather(type);
+      document.querySelectorAll(".weather-btn").forEach(b => {
+        b.className = "weather-btn px-2 py-1 rounded-lg text-slate-400 hover:text-white";
+      });
+      activeBtn.className = "weather-btn px-2 py-1 rounded-lg text-cyan-300 font-bold bg-cyan-950 border border-cyan-500/40";
+    };
+
+    const btnClear = document.getElementById("weatherBtnClear");
+    const btnRain = document.getElementById("weatherBtnRain");
+    const btnFog = document.getElementById("weatherBtnFog");
+    const btnStorm = document.getElementById("weatherBtnStorm");
+
+    btnClear?.addEventListener("click", () => setWeather("CLEAR", btnClear));
+    btnRain?.addEventListener("click", () => setWeather("RAIN", btnRain));
+    btnFog?.addEventListener("click", () => setWeather("FOG", btnFog));
+    btnStorm?.addEventListener("click", () => setWeather("STORM", btnStorm));
+  }
+
+  initSoundboardControls() {
+    document.getElementById("btnWhistle")?.addEventListener("click", () => {
+      this.announcements.playGuardWhistle();
+    });
+
+    document.getElementById("btnBell")?.addEventListener("click", () => {
+      this.announcements.playLevelCrossingBell();
+    });
+
+    document.getElementById("btnAnnounceHi")?.addEventListener("click", () => {
+      const tele = this.physics.getTelemetry();
+      this.announcements.speakAnnouncement(
+        this.currentTrain.number,
+        this.currentTrain.name,
+        tele.nextStation,
+        tele.nextStationPlatform,
+        "hi"
+      );
+    });
+
+    document.getElementById("btnEmergencySOS")?.addEventListener("click", () => {
+      const incident = this.emergencyAid.triggerEmergencySOS(this.physics);
+      alert(
+        `🚨 EMERGENCY SOS BROADCASTED!\n` +
+        `Incident Ref: ${incident.incidentId}\n` +
+        `Train: ${incident.trainNumber} ${incident.trainName} (Coach ${incident.coach})\n` +
+        `Location: ${incident.lat}°N, ${incident.lon}°E (Speed: ${incident.speedKmh} km/h)\n` +
+        `Nearest Station: ${incident.nearestStation}\n` +
+        `Dispatched Units: ${incident.dispatchedUnits.join(", ")}\n` +
+        `RPF Control Room & Medical Unit Notified!`
+      );
     });
   }
 
@@ -595,8 +679,9 @@ class RailPulseApp {
       this.platformView.render();
     }
 
-    // 4. Update Telemetry HUD
+    // 4. Update Telemetry HUD & Energy Dynamics
     this.telemetryHUD.render(tele, this.currentTrain);
+    this.advancedTelemetry.render(tele, this.currentTrain);
 
     // 5. Update offline triangulator periodically
     if (Math.random() < 0.05) {

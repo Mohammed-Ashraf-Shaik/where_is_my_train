@@ -3,12 +3,15 @@
  * Renders ballast, sleepers, dual rails, catenary poles, signals & animated aerodynamic train
  */
 
+import { WeatherFXEngine } from "./weatherFX.js";
+
 export class TrackRenderer {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
     this.train = null;
     this.physics = null;
+    this.weatherFX = new WeatherFXEngine(canvas);
 
     // Camera viewport
     this.cameraX = 0;
@@ -137,6 +140,9 @@ export class TrackRenderer {
     this.drawSparks(trainPos);
 
     ctx.restore();
+
+    // 9. Dynamic Weather Atmospheric FX Layer
+    this.weatherFX.render(width, height);
   }
 
   drawTerrain(width, height) {
