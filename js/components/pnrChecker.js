@@ -1,6 +1,7 @@
 /**
  * RailPulse AI - PNR Status Visualizer & Confirmation Forecaster
- * Live PNR lookup simulator with AI booking confirmation probability
+ * Live PNR lookup simulator with AI booking confirmation probability & WhatsApp Trip Sharing
+ * Editorial Midnight Indigo (#282B4A) & Vanilla (#EEEBDA) Design System
  */
 
 import { COMMON_PNR_SAMPLES } from "../data/trainData.js";
@@ -17,12 +18,20 @@ export class PNRCheckerComponent {
 
     this.container.innerHTML = `
       <div class="transit-card p-4 mb-4 bg-[#282B4A] border-[#EEEBDA]/15 text-[#EEEBDA]">
-        <div class="flex items-center justify-between mb-3 border-b border-[#EEEBDA]/15 pb-2">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3 border-b border-[#EEEBDA]/15 pb-2">
           <div class="flex items-center space-x-2">
             <span class="text-xl">🎫</span>
             <h3 class="font-bold text-sm tracking-wide text-[#EEEBDA] uppercase">PNR Status & Confirmation Forecaster</h3>
           </div>
-          <span class="text-xs text-[#C8C5B4]">10-Digit PNR Lookup</span>
+          <div class="flex items-center space-x-2">
+            <button 
+              id="btnShareWhatsApp" 
+              title="Share live trip with family on WhatsApp"
+              class="px-2.5 py-1 rounded-lg bg-[#25D366]/20 hover:bg-[#25D366]/30 text-[#25D366] border border-[#25D366]/40 text-xs font-bold transition flex items-center space-x-1">
+              <span>💬</span><span>Share on WhatsApp</span>
+            </button>
+            <span class="text-xs text-[#C8C5B4]">10-Digit PNR</span>
+          </div>
         </div>
 
         <!-- Search Bar with Quick Sample Buttons -->
@@ -44,12 +53,12 @@ export class PNRCheckerComponent {
           </button>
         </div>
 
-        <div class="flex items-center space-x-2 mb-4 text-xs">
-          <span class="text-[#C8C5B4]">Quick Test PNRs:</span>
+        <div class="flex items-center space-x-2 mb-4 text-xs overflow-x-auto">
+          <span class="text-[#C8C5B4] whitespace-nowrap">Quick Test PNRs:</span>
           ${COMMON_PNR_SAMPLES.map(s => `
             <button 
               data-sample-pnr="${s.pnr}"
-              class="sample-pnr-btn px-2 py-0.5 rounded bg-[#32365C] hover:bg-[#EEEBDA] hover:text-[#282B4A] text-[#EEEBDA] font-mono text-[11px] border border-[#EEEBDA]/15 transition">
+              class="sample-pnr-btn px-2 py-0.5 rounded bg-[#32365C] hover:bg-[#EEEBDA] hover:text-[#282B4A] text-[#EEEBDA] font-mono text-[11px] border border-[#EEEBDA]/15 transition whitespace-nowrap">
               ${s.pnr}
             </button>
           `).join("")}
@@ -82,11 +91,18 @@ export class PNRCheckerComponent {
           </div>
 
           <!-- AI Prediction Banner -->
-          <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15 flex items-center space-x-2.5 text-xs text-[#EEEBDA]">
-            <span class="text-base">🧠</span>
-            <div>
-              <strong class="text-[#F26419]">Confirmation Forecast:</strong> ${pnr.aiPrediction}
+          <div class="p-2.5 rounded-lg bg-[#282B4A] border border-[#EEEBDA]/15 flex items-center justify-between text-xs text-[#EEEBDA]">
+            <div class="flex items-center space-x-2">
+              <span class="text-base">🧠</span>
+              <div>
+                <strong class="text-[#F26419]">Confirmation Forecast:</strong> ${pnr.aiPrediction}
+              </div>
             </div>
+            <button 
+              id="btnCopyTripDetails" 
+              class="px-2 py-1 rounded bg-[#32365C] hover:bg-[#3E4370] text-[#EEEBDA] text-[11px] font-mono border border-[#EEEBDA]/20 transition">
+              📋 Copy Details
+            </button>
           </div>
         </div>
       </div>
@@ -114,7 +130,6 @@ export class PNRCheckerComponent {
           this.currentPNR = found;
           this.render();
         } else {
-          // Dynamic simulated PNR
           this.currentPNR = {
             pnr: query || "1234567890",
             trainNumber: "22436",
@@ -133,6 +148,29 @@ export class PNRCheckerComponent {
         }
       });
     }
+
+    // Share on WhatsApp
+    this.container.querySelector("#btnShareWhatsApp")?.addEventListener("click", () => {
+      const shareText = encodeURIComponent(
+        `🚆 *RailPulse AI Live Journey Update*\n` +
+        `Train: ${pnr.trainNumber} ${pnr.trainName}\n` +
+        `Route: ${pnr.from} ➔ ${pnr.to} | PNR: ${pnr.pnr}\n` +
+        `Status: ${pnr.chartStatus} (${pnr.passengers[0]?.currentStatus || 'CNF'})\n` +
+        `Track live movement here: https://mohammed-ashraf-shaik.github.io/where_is_my_train/`
+      );
+      window.open(`https://api.whatsapp.com/send?text=${shareText}`, "_blank");
+    });
+
+    // Copy Trip Details
+    this.container.querySelector("#btnCopyTripDetails")?.addEventListener("click", () => {
+      const details = 
+        `Train: ${pnr.trainNumber} ${pnr.trainName}\n` +
+        `PNR: ${pnr.pnr} | Date: ${pnr.doj}\n` +
+        `From: ${pnr.from} To: ${pnr.to} | Class: ${pnr.class}\n` +
+        `Pass 1: ${pnr.passengers[0]?.currentStatus} Coach ${pnr.passengers[0]?.coach || '-'} Berth ${pnr.passengers[0]?.berth || '-'}`;
+      navigator.clipboard?.writeText(details).then(() => {
+        alert("✅ Trip and PNR details copied to clipboard!");
+      });
+    });
   }
 }
-
