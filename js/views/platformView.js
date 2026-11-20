@@ -198,3 +198,4 @@ export class PlatformView {
     ctx.fillText(statusText, w / 2, by + 38);
   }
 }
+

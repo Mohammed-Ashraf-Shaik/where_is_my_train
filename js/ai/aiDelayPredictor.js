@@ -85,3 +85,4 @@ export class AIDelayPredictor {
     return `🚨 High cascading delay probability (+${delay}m). Signal block holding times exceed standard margins. Consider buffer times for connecting trains.`;
   }
 }
+

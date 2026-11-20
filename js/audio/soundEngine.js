@@ -272,3 +272,4 @@ class RailSoundEngine {
 }
 
 export const soundEngine = new RailSoundEngine();
+

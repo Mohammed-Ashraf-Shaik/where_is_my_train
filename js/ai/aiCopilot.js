@@ -145,3 +145,4 @@ export class RailGeminiCopilot {
     return `🚆 **RailGemini Travel Assistant:** You are aboard the **${train.name} (${train.number})** headed to **${train.destination}**.\nAsk me anything about live train speed, platform opening sides, coach positions, delay prediction, or food options!`;
   }
 }
+

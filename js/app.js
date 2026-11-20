@@ -613,3 +613,4 @@ window.addEventListener("DOMContentLoaded", () => {
   app.init();
   window.railPulseApp = app;
 });
+

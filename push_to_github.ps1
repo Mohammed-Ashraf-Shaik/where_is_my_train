@@ -1,6 +1,6 @@
 ﻿# RailPulse AI - PowerShell GitHub Push Utility
 param(
-    [string]$RepoName = "where-is-my-train-ai"
+    [string]$RepoName = "where_is_my_train"
 )
 
 Write-Host "========================================================" -ForegroundColor Cyan
@@ -26,3 +26,4 @@ if ($LASTEXITCODE -eq 0) {
     Write-Host "If the repository does not exist yet on GitHub, please create it at:" -ForegroundColor Yellow
     Write-Host "https://github.com/new (Name: $RepoName)" -ForegroundColor White
 }
+

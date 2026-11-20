@@ -278,3 +278,4 @@ export const COMMON_PNR_SAMPLES = [
     aiPrediction: "94.2% Chance of Full Berth Allocation at Charting"
   }
 ];
+

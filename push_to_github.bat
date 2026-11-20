@@ -6,10 +6,10 @@ echo ========================================================
 echo.
 echo Step 1: Ensure you created a repository on GitHub:
 echo         https://github.com/new
-echo         Recommended repository name: where-is-my-train-ai  (or train-tracker)
+echo         Target repository name: where_is_my_train
 echo.
-set /p REPO_NAME="Enter your GitHub repository name [default: where-is-my-train-ai]: "
-if "%REPO_NAME%"=="" set REPO_NAME=where-is-my-train-ai
+set /p REPO_NAME="Enter your GitHub repository name [default: where_is_my_train]: "
+if "%REPO_NAME%"=="" set REPO_NAME=where_is_my_train
 
 echo.
 echo Configuring remote origin for repository: %REPO_NAME%...
@@ -36,3 +36,4 @@ if %errorlevel% equ 0 (
 )
 echo.
 pause
+

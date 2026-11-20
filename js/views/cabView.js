@@ -233,3 +233,4 @@ export class CabView {
     ctx.fillText(`NEXT: ${tele.nextStation} (P${tele.nextStationPlatform}) in ${tele.remainingKmToNext} km`, 22, dashY + 54);
   }
 }
+
