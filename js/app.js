@@ -20,6 +20,7 @@ import { LiveStationBoardComponent } from "./components/liveStationBoard.js";
 import { BerthInspectorComponent } from "./components/berthInspector.js";
 import { ECateringComponent } from "./components/eCatering.js";
 import { AdvancedTelemetryComponent } from "./components/advancedTelemetry.js";
+import { PlatformWalkLocatorComponent } from "./components/platformWalkLocator.js";
 import { EmergencyAidAI } from "./ai/emergencyAidAI.js";
 import { StationAnnouncementPack } from "./audio/announcementPack.js";
 
@@ -61,6 +62,7 @@ class RailPulseApp {
     this.berthInspector = new BerthInspectorComponent("berthInspectorContainer");
     this.eCatering = new ECateringComponent("eCateringContainer");
     this.advancedTelemetry = new AdvancedTelemetryComponent("advancedTelemetryContainer");
+    this.platformWalk = new PlatformWalkLocatorComponent("platformWalkContainer");
 
     // Timing
     this.lastTime = performance.now();
@@ -97,6 +99,7 @@ class RailPulseApp {
 
     // 10. Initial UI Render
     this.coachLayout.render(this.currentTrain);
+    this.platformWalk.render();
     this.pnrChecker.render();
     this.stationBoard.render();
     this.berthInspector.render();
@@ -115,6 +118,7 @@ class RailPulseApp {
     this.trackRenderer.setTrain(train, this.physics);
     this.cabView.setPhysics(this.physics, this.sound);
     this.platformView.setPhysics(this.physics, train);
+    this.platformWalk?.setTrain(train);
     this.copilot.setContext(this.physics, train);
 
     // Update Header Badges
