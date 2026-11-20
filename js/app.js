@@ -21,6 +21,7 @@ import { BerthInspectorComponent } from "./components/berthInspector.js";
 import { ECateringComponent } from "./components/eCatering.js";
 import { AdvancedTelemetryComponent } from "./components/advancedTelemetry.js";
 import { PlatformWalkLocatorComponent } from "./components/platformWalkLocator.js";
+import { TrackTopologyMonitorComponent } from "./components/trackTopologyMonitor.js";
 import { EmergencyAidAI } from "./ai/emergencyAidAI.js";
 import { StationAnnouncementPack } from "./audio/announcementPack.js";
 
@@ -63,6 +64,7 @@ class RailPulseApp {
     this.eCatering = new ECateringComponent("eCateringContainer");
     this.advancedTelemetry = new AdvancedTelemetryComponent("advancedTelemetryContainer");
     this.platformWalk = new PlatformWalkLocatorComponent("platformWalkContainer");
+    this.trackTopology = new TrackTopologyMonitorComponent("trackTopologyContainer");
 
     // Timing
     this.lastTime = performance.now();
@@ -686,6 +688,7 @@ class RailPulseApp {
     // 4. Update Telemetry HUD & Energy Dynamics
     this.telemetryHUD.render(tele, this.currentTrain);
     this.advancedTelemetry.render(tele, this.currentTrain);
+    this.trackTopology.render(tele, this.currentTrain);
 
     // 5. Update offline triangulator periodically
     if (Math.random() < 0.05) {

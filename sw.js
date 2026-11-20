@@ -4,7 +4,7 @@
  * Strategy: Cache First, Network Fallback
  */
 
-const CACHE_NAME = "railpulse-v1.2.0";
+const CACHE_NAME = "railpulse-v1.3.0";
 
 const STATIC_ASSETS = [
   "./",
@@ -31,7 +31,9 @@ const STATIC_ASSETS = [
   "./js/components/liveStationBoard.js",
   "./js/components/berthInspector.js",
   "./js/components/eCatering.js",
-  "./js/components/advancedTelemetry.js"
+  "./js/components/advancedTelemetry.js",
+  "./js/components/platformWalkLocator.js",
+  "./js/components/trackTopologyMonitor.js"
 ];
 
 // Install Event - Pre-cache critical application bundle
