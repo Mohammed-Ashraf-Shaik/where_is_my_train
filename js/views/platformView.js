@@ -41,27 +41,27 @@ export class PlatformView {
     ctx.save();
     ctx.clearRect(0, 0, w, h);
 
-    // 1. Station Roof & Sky
+    // 1. Station Roof & Sky (Midnight Indigo)
     const skyGrad = ctx.createLinearGradient(0, 0, 0, h * 0.4);
-    skyGrad.addColorStop(0, "#0a1120");
-    skyGrad.addColorStop(1, "#162035");
+    skyGrad.addColorStop(0, "#181A2D");
+    skyGrad.addColorStop(1, "#282B4A");
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, w, h * 0.4);
 
     // Platform Overhead Steel Canopy Structure
-    ctx.fillStyle = "#1e293b";
+    ctx.fillStyle = "#22253E";
     ctx.fillRect(0, 0, w, 24);
     for (let x = 40; x < w; x += 120) {
-      ctx.strokeStyle = "#334155";
+      ctx.strokeStyle = "#383C66";
       ctx.lineWidth = 6;
       ctx.beginPath();
       ctx.moveTo(x, 24);
       ctx.lineTo(x, h * 0.5);
       ctx.stroke();
 
-      // Suspended Platform Lamp
-      ctx.fillStyle = "rgba(255, 255, 200, 0.8)";
-      ctx.shadowColor = "#fef08a";
+      // Suspended Platform Lamp (Warm Amber Glow)
+      ctx.fillStyle = "rgba(255, 245, 192, 0.9)";
+      ctx.shadowColor = "#F26419";
       ctx.shadowBlur = 10;
       ctx.beginPath();
       ctx.arc(x, 34, 4, 0, Math.PI * 2);
@@ -71,24 +71,24 @@ export class PlatformView {
 
     // 2. Platform Concrete Slab & Paving
     const platY = h * 0.52;
-    ctx.fillStyle = "#1e293b";
+    ctx.fillStyle = "#282B4A";
     ctx.fillRect(0, platY, w, h - platY);
 
     // Yellow Safety Paving Line
-    ctx.fillStyle = "#ffb703";
+    ctx.fillStyle = "#FFDD00";
     ctx.fillRect(0, platY + 4, w, 6);
 
     // Platform edge shadow
-    ctx.fillStyle = "#020617";
+    ctx.fillStyle = "#181A2D";
     ctx.fillRect(0, platY + 10, w, 16);
 
     // 3. Track Bed below Platform
     const trackY = platY + 26;
-    ctx.fillStyle = "#0f172a";
+    ctx.fillStyle = "#1E2036";
     ctx.fillRect(0, trackY, w, h - trackY);
 
     // Rails in front of platform
-    ctx.strokeStyle = "#8fe5ff";
+    ctx.strokeStyle = "#EEEBDA";
     ctx.lineWidth = 3.5;
     ctx.beginPath();
     ctx.moveTo(0, trackY + 20);
@@ -172,30 +172,31 @@ export class PlatformView {
   }
 
   drawStationBoard(ctx, w, platY, tele) {
-    // Large Digital Overhead Arrival Signboard
-    const boardW = 320;
-    const boardH = 50;
+    // Large Authentic Overhead Indian Railways Platform Board
+    const boardW = 340;
+    const boardH = 52;
     const bx = (w - boardW) / 2;
-    const by = platY - 90;
+    const by = platY - 95;
 
-    ctx.fillStyle = "#050b14";
+    // Midnight Indigo casing with Vanilla Border
+    ctx.fillStyle = "#181A2D";
     ctx.fillRect(bx, by, boardW, boardH);
-    ctx.strokeStyle = "#00e5ff";
+    ctx.strokeStyle = "#EEEBDA";
     ctx.lineWidth = 1.5;
     ctx.strokeRect(bx, by, boardW, boardH);
 
-    // Digital LED text
-    ctx.fillStyle = "#ffb703";
-    ctx.font = "bold 13px monospace";
+    // Platform Yellow Destination Board Text
+    ctx.fillStyle = "#FFDD00";
+    ctx.font = "bold 13px sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`${tele.nextStation.toUpperCase()} - PLATFORM ${tele.nextStationPlatform}`, w / 2, by + 20);
+    ctx.fillText(`${tele.nextStation.toUpperCase()} — PLATFORM ${tele.nextStationPlatform}`, w / 2, by + 21);
 
-    ctx.fillStyle = tele.isStationDwell ? "#00ff88" : "#00e5ff";
+    ctx.fillStyle = tele.isStationDwell ? "#2EC4B6" : "#EEEBDA";
     ctx.font = "11px monospace";
     const statusText = tele.isStationDwell 
-      ? `HALTED: DEPARTS IN ${tele.dwellSecondsLeft}s` 
-      : `APPROACHING: ${tele.speedKmh} KM/H (ETA: ${tele.etaMinutes}m)`;
-    ctx.fillText(statusText, w / 2, by + 38);
+      ? `HALTED AT DOCK: DEPARTS IN ${tele.dwellSecondsLeft}s` 
+      : `APPROACHING: ${tele.speedKmh} KM/H (ETA: ${tele.etaMinutes} MIN)`;
+    ctx.fillText(statusText, w / 2, by + 39);
   }
 }
 
